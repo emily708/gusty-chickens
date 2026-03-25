@@ -1,4 +1,4 @@
-# Project Name TBD by Gusty Chickens
+# Let's Titanic! TBD by Gusty Chickens
 
 ## Roster
 PM Emily Mai  
@@ -10,4 +10,6 @@ Devo James Lei
 
 ## Install Guide
 
-## Launch Codes  
+
+## Launch Codes
+
