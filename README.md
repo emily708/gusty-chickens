@@ -1,4 +1,4 @@
-# Let's Titanic! TBD by Gusty Chickens
+# Let's Titanic! by Gusty Chickens
 
 ## Roster
 PM Emily Mai  
