@@ -1,0 +1,5 @@
+AmyS -- 2026-03-26 15:37
+- Update design document, only revisions are adding in extra mechanics for specific rooms.
+
+AmyS -- 2026-03-25 19:41
+- Add design document
