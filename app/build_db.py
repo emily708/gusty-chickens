@@ -15,7 +15,7 @@ c.executescript("""
 
     DROP TABLE IF EXISTS DefaultPassengers;
     CREATE TABLE DefaultPassengers (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         survived INTEGER,
         class INTEGER,
         name TEXT,
