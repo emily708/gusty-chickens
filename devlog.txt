@@ -1,5 +1,5 @@
 AmyS -- 2026-03-26 15:37
-- Update design document, only revisions are adding in extra mechanics for specific rooms.
+- Update design document, (DD Review) only revisions are adding in extra mechanics for specific rooms, and overall impression of the design doc is that it's very organized and well thought out.
 
 AmyS -- 2026-03-25 19:41
 - Add design document
