@@ -1,5 +1,13 @@
-AmyS -- 2026-03-26 15:37
-- Update design document, (DD Review) only revisions are adding in extra mechanics for specific rooms, and overall impression of the design doc is that it's very organized and well thought out.
-
 AmyS -- 2026-03-25 19:41
 - Add design document
+
+AmyS -- 2026-03-26 15:37
+- Update design document
+
+INITIAL DD REVIEW:
+- creative and comprehensive idea, cool bonus ideas
+- detailed site map, well-organized db
+- will result.html point to something i.e. startscreen?
+
+DESIGN REVISIONS THUS FAR:
+Added in extra mechanics for specific rooms.
