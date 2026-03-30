@@ -52,8 +52,35 @@
             }
         </style>
     </head>
-
     <body>
+	<div class="hold">
+            <h1>
+                Login
+            </h1>
+            <br>
+            <form action="/login" method="POST">
+                <h3>Username:</h3>
+                <input class="a" type="text" name="username" required>
+                <br>
+                <br>
+                <h3>Password:</h3>
+                <input class="a" type=password name="password" required>
+                <br>
+                <br>
+                <input class="b" type="submit" name="sub1" value="Login">
+            </form>
+            <br>
+            <br>
+            <!-- <h5> {{invalid}} </h5> -->
+            <br>
+            <br>
+            <div>
+                <p style="font-size: 110%; color: white;"> If you don't have an account, click the button below to register. </p>
+                <a href="{{url_for('register')}}"> <button class="b">Register</button> </a>
+            </div>
+        </div>
+        <br>
+        <br>
     </body>
 
     <script>
