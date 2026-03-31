@@ -17,3 +17,7 @@ CarrieK -- 2026-03-30 11:00
 
 CarrieK -- 2026-03-30 20:05
 - did the login and register html, temp code in flask?? check if it works i commented it out entirely
+
+JamesL -- 2026-03-30 20:30
+- ported over database code
+- finished build_db and worked on parsing csv
