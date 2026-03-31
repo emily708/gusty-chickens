@@ -14,3 +14,6 @@ Added in extra mechanics for specific rooms.
 
 CarrieK -- 2026-03-30 11:00
 - template work yum
+
+CarrieK -- 2026-03-30 20:05
+- did the login and register html, temp code in flask?? check if it works i commented it out entirely
