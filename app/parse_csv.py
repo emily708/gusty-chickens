@@ -14,3 +14,10 @@ with open('titanic1.csv', newline='') as titanic_data:
             "fare": row[10],
             "isAlone": row[9],
         })
+
+with open('titanic2.csv', newline='') as titanic_data:
+    reader = csv.reader(titanic_data)
+    next(reader)
+    for row in reader:
+        general_query("UPDATE DefaultPassengers SET name=?, cabin=?, port=? WHERE id=?",
+            (row[3], row[10], row[11], row[0]))

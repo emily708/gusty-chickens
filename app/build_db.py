@@ -23,7 +23,8 @@ c.executescript("""
         age INTEGER,
         fare REAL,
         isAlone INTEGER,
-        port INTEGER
+        cabin TEXT,
+        port TEXT
     );
 
     DROP TABLE IF EXISTS Games;
@@ -53,6 +54,12 @@ c.executescript("""
         name TEXT,
         game INTEGER,
         FOREIGN KEY (game) REFERENCES Games(id)
+    );
+
+    DROP TABLE IF EXISTS Users;
+    CREATE TABLE Users (
+        username TEXT PRIMARY KEY,
+        password TEXT
     );
 """)
 

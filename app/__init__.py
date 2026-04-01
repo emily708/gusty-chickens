@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, url_for
 
 app = Flask(__name__)
 app.secret_key = b'thegustiestofchickensmuahahahhhahhaha'
@@ -76,5 +76,5 @@ def register():
     return render_template("register.html")
 
 if __name__ == '__main__':
-    app.debug = True 
+    app.debug = True
     app.run()
