@@ -23,7 +23,8 @@ c.executescript("""
         age INTEGER,
         fare REAL,
         isAlone INTEGER,
-        port INTEGER
+        cabin TEXT,
+        port TEXT
     );
 
     DROP TABLE IF EXISTS Games;
