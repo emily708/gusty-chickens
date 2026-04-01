@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, session
 
 app = Flask(__name__)
+app.secret_key = b'thegustiestofchickensmuahahahhhahhaha'
+
 
 import auth
 app.register_blueprint(auth.bp)
@@ -18,10 +20,8 @@ def home_get():
 @app.get("/login")
 def login():
     return render_template('login.html')
-"""
-temp code i yoinked from old project
     if loggedin():
-        return "uh we don't have real stuff yet"
+        return render_template('load.html')
 
     if request.method == 'POST':
         session.clear()
@@ -38,17 +38,15 @@ temp code i yoinked from old project
 
                 session['username'] = request.form['username'].lower()
 
-                return "idk boo no templates yet"
+                return render_template('load.html')
     else:
         return render_template("login.html")
-"""
 
 @app.get("/register")
 def register():
     return render_template("register.html")
-"""
     if loggedin():
-        return "something"
+        return render_template('load.html')
     else:
         if request.method == 'POST':
             with sqlite3.connect(DB_FILE) as db:
@@ -74,9 +72,9 @@ def register():
                 session.permanent = True
                 session['username'] = request.form['username'].lower()
 
-                return "sm"
+                return render_template('load.html')
     return render_template("register.html")
-"""
+
 if __name__ == '__main__':
-    #app.debug = True 
+    app.debug = True 
     app.run()
