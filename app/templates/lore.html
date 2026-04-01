@@ -13,8 +13,33 @@
     </head>
 
     <body>
+        <div class="container">
+         <img class="img" style="position: relative" src="/static/choose_cat.png" alt="cute cat">
+         <div class="box">
+            <p> &lt; ??? &gt;</p>
+            <p id="first"><br></p>
+            <button class="button1" id="play"> <img class="img" src="/static/play.png" alt="play"> </button>
+            <a href="/encounters"> <button class="button1" id="continue" style="display: none;"> <img class="img" src="/static/play.png" alt="continue"> </button> </a>
+         </div>
+      </div>
     </body>
 
     <script>
+          document.addEventListener("DOMContentLoaded", function () {
+          let letter = 0;
+          const text = "temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp temp "
+          function uh(){
+              document.getElementById("first").innerHTML = "";
+          }
+          function typeText() {
+              if (letter < text.length) {
+                  document.getElementById("first").innerHTML += text.charAt(letter);
+                  letter++;
+                  let speed = 25;
+                  setTimeout(typeText, speed);
+              }
+          }
+          document.getElementById("play").onclick = function() {this.style.display = 'none'; document.getElementById("continue").style.display = 'inline'; uh(); typeText(); setTimeout(show, 7000);};
+      });
     </script>
 </html>
