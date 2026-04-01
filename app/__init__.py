@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 app = Flask(__name__)
 
 import auth
-app.register_blueprint(auth.bp);
+app.register_blueprint(auth.bp)
 
 @app.before_request
 def check_authentification():
@@ -17,6 +17,7 @@ def home_get():
 
 @app.get("/login")
 def login():
+    return render_template('login.html')
 """
 temp code i yoinked from old project
     if loggedin():
@@ -44,6 +45,7 @@ temp code i yoinked from old project
 
 @app.get("/register")
 def register():
+    return render_template("register.html")
 """
     if loggedin():
         return "something"
@@ -76,5 +78,5 @@ def register():
     return render_template("register.html")
 """
 if __name__ == '__main__':
-    app.debug = True;
-    app.run();
+    #app.debug = True 
+    app.run()
