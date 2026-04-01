@@ -55,6 +55,12 @@ c.executescript("""
         game INTEGER,
         FOREIGN KEY (game) REFERENCES Games(id)
     );
+
+    DROP TABLE IF EXISTS Users;
+    CREATE TABLE Users (
+        username TEXT PRIMARY KEY,
+        password TEXT
+    );
 """)
 
 db.commit()

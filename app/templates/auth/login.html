@@ -58,7 +58,7 @@
                 Login
             </h1>
             <br>
-            <form action="/login" method="POST">
+            <form action="/auth/login" method="POST">
                 <h3>Username:</h3>
                 <input class="a" type="text" name="username" required>
                 <br>
@@ -76,7 +76,7 @@
             <br>
             <div>
                 <p style="font-size: 110%; color: white;"> If you don't have an account, click the button below to register. </p>
-                <a href="{{url_for('register')}}"> <button class="b">Register</button> </a>
+                <a href="{{url_for('auth.register_get')}}"> <button class="b">Register</button> </a>
             </div>
         </div>
         <br>
