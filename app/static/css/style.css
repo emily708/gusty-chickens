@@ -1,9 +1,8 @@
-
 .center{
          text-align: center;
-         padding-top: 18vh;
+         padding-top: 20vh;
          padding-bottom: 0vh;
-         font-size: 750%;
+         font-size: 700%;
 }
 .center2{
          text-align: center;
@@ -15,6 +14,7 @@ h1{
 }
 .button{
          border: none;
+font-family: "Syne Mono", monospace;
          background: none;
          font-size: 50%;
          color: white;
@@ -29,13 +29,14 @@ a:link {
          color: #363132;
 }
 	    body{
+            color: white;
             background-color: black;
-         	font-family: "Metal Mania", system-ui;
+         	font-family: "Syne Mono", monospace;
          	background-repeat: no-repeat;
          	background-size: 100vw 100vh;
             }
             .hold{
-         	margin-top: 10vh;
+         	margin-top: 5vh;
          	text-align: center;
          	margin-left: 10vw;
          	margin-right: 10vw;
@@ -44,16 +45,23 @@ a:link {
             }
             .a{
          	color: black;
-            }
-            .b{
-         	padding-top: 0.5vh;
+         	font-family: "Syne Mono", monospace;
+            font-size: 100%;
+            padding-top: 0.5vh;
          	padding-bottom: 0.5vh;
          	padding-left: 1vw;
          	padding-right: 1vw;
+            }
+            .b{
+         	padding-top: 0.75vh;
+         	padding-bottom: 0.75vh;
+         	padding-left: 1.25vw;
+         	padding-right: 1.25vw;
          	background-color: white;
          	border: none;
          	border-radius: 6px;
          	color: black;
+         	font-family: "Syne Mono", monospace;
             }
             .b:hover{
          	background-color: #C7C7C7;
