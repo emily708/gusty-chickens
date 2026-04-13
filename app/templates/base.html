@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap" rel="stylesheet">
   </head>
   <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -17,9 +17,7 @@
       {% endif %}
     {% endwith %}
 
-    <main class="content">
       {% block content %}
       {% endblock %}
-    </main>
   </body>
 </html>
