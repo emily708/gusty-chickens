@@ -41,6 +41,10 @@ source venv/bin/activate
 5) Install necessary modules:
 ```
 pip install -r requirements.txt
+```
+6) Create databases:
+```
+python3 app/build_db.py
 ```  
 
 ## Launch codes
