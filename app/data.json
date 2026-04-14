@@ -1,0 +1,124 @@
+{
+    "tier": {
+        "A": {
+            "total": 15,
+            "survived": 2,
+            "percentage": 0.13333333333333333
+        },
+        "B": {
+            "total": 64,
+            "survived": 15,
+            "percentage": 0.234375
+        },
+        "C": {
+            "total": 71,
+            "survived": 20,
+            "percentage": 0.28169014084507044
+        },
+        "D": {
+            "total": 34,
+            "survived": 5,
+            "percentage": 0.14705882352941177
+        },
+        "E": {
+            "total": 33,
+            "survived": 12,
+            "percentage": 0.36363636363636365
+        },
+        "F": {
+            "total": 13,
+            "survived": 3,
+            "percentage": 0.23076923076923078
+        },
+        "G": {
+            "total": 7,
+            "survived": 1,
+            "percentage": 0.14285714285714285
+        }
+    },
+    "gender": {
+        "male": {
+            "total": 1630,
+            "survived": 270,
+            "percentage": 0.1656441717791411
+        },
+        "female": {
+            "total": 870,
+            "survived": 431,
+            "percentage": 0.4954022988505747
+        }
+    },
+    "age": {
+        "child": {
+            "total": 271,
+            "survived": 98,
+            "percentage": 0.36162361623616235
+        },
+        "teenager": {
+            "total": 286,
+            "survived": 81,
+            "percentage": 0.28321678321678323
+        },
+        "young adult": {
+            "total": 1087,
+            "survived": 287,
+            "percentage": 0.2640294388224471
+        },
+        "adult": {
+            "total": 835,
+            "survived": 229,
+            "percentage": 0.274251497005988
+        },
+        "senior": {
+            "total": 21,
+            "survived": 6,
+            "percentage": 0.2857142857142857
+        }
+    },
+    "isAlone": {
+        "true": {
+            "total": 1037,
+            "survived": 284,
+            "percentage": 0.2738669238187078
+        },
+        "false": {
+            "total": 1463,
+            "survived": 417,
+            "percentage": 0.28503075871496925
+        }
+    },
+    "class": {
+        "1": {
+            "total": 617,
+            "survived": 255,
+            "percentage": 0.413290113452188
+        },
+        "2": {
+            "total": 497,
+            "survived": 124,
+            "percentage": 0.24949698189134809
+        },
+        "3": {
+            "total": 1386,
+            "survived": 322,
+            "percentage": 0.23232323232323232
+        }
+    },
+    "port": {
+        "Q": {
+            "total": 77,
+            "survived": 20,
+            "percentage": 0.2597402597402597
+        },
+        "S": {
+            "total": 644,
+            "survived": 182,
+            "percentage": 0.2826086956521739
+        },
+        "C": {
+            "total": 168,
+            "survived": 42,
+            "percentage": 0.25
+        }
+    }
+}
