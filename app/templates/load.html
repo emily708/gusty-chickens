@@ -2,4 +2,63 @@
 {% block title %}Load{% endblock %}
 
 {% block content %}
+<style>
+body{
+    background-image: linear-gradient(rgba(24, 26, 73, 0.45), rgba(24, 26, 73, 0.45)), url("/static/background.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#hold{
+    animation: black 2s ease;
+    opacity: 0;
+    height: 1;
+    overflow: hidden;
+}
+@keyframes black {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+.temp{
+    height: 0;
+}
+</style>
+	<div id="hold" class="aaa">
+            <h1>
+                Login
+            </h1>
+            <form action="/auth/login" method="POST">
+                <h3>Username:</h3>
+                <input class="a" type="text" name="username" required>
+                <br>
+                <br>
+                <h3>Password:</h3>
+                <input class="a" type=password name="password" required>
+                <br>
+                <br>
+                <input class="b" type="submit" name="sub1" value="Login">
+            </form>
+            <br>
+            <br>
+            <!-- <h5> {{t}} </h5> -->
+            <br>
+            <br>
+            <div>
+                <p style="font-size: 110%; color: white;"> If you don't have an account, click the button below to register. </p>
+                <a href="{{url_for('auth.register_get')}}"> <button class="b">Register</button> </a>
+            </div>
+        </div>
+        <br>
+        <br>
+
+    <script>
+    const a = document.querySelector('#hold');
+    a.addEventListener('animationend', () => {
+        document.querySelector('#hold').classList.add('temp')
+    })
+    </script>
 {% endblock %}
