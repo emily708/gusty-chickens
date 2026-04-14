@@ -7,13 +7,14 @@
 {% block content %}
 <br>
 <h2>Passenger Rooms</h2>
+<a href="/game/rooms/compass_platform.html" type="button" class="btn btn-primary py-2">compass platform</a>
 <h3>Class</h3>
   {% for i in "ABCDEFG" %}
   <div class='row justify-content-center'>
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="2 / 100">{{ i }}</button>
+        <a href="/rooms/compass_platform.html" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="2 / 100">{{ i }}</a>
       </div>
     </div>
     </div>
@@ -40,64 +41,22 @@
     <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Squash Court</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Water Tank 1</button>
+    <button type="button" class="btn btn-primary py-2">Water Tank</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Water Tank 2</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 1</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 2</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 3</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 4</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 5</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room 6</button>
+    <button type="button" class="btn btn-primary py-2">Boiler Room</button>
   </div>
   <div class="col-auto">
     <button type="button" class="btn btn-primary py-2">Post Office</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Crew Room 1</button>
+    <button type="button" class="btn btn-primary py-2">Crew Room</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Crew Room 2</button>
+    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Crew Room 3</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo 1</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo 2</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 1</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 2</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 3</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 4</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 5</button>
-  </div>
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo 6</button>
+    <button type="button" class="btn btn-primary py-2">Cargo</button>
   </div>
 </div>
 {% endblock %}
