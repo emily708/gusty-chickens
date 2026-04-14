@@ -89,7 +89,7 @@ button:hover{
          cursor: pointer;
 }
 #blink {
-         transition: 0.2s;
+         transition: 0.5s;
 }
 a:link {
          color: #363132;
@@ -128,6 +128,8 @@ a:link {
          	padding-bottom: 0.5vh;
          	padding-left: 1vw;
          	padding-right: 1vw;
+	   border-radius: 6px;
+	 border-color: white;
             }
             .b{
          	padding-top: 0.75vh;
