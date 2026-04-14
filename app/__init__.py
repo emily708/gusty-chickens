@@ -6,6 +6,9 @@ app.secret_key = b'thegustiestofchickensmuahahahhhahhaha'
 
 import auth
 app.register_blueprint(auth.bp)
+import game
+app.register_blueprint(game.bp)
+
 
 @app.before_request
 def check_authentification():
