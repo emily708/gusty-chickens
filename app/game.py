@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, Blueprint
 
 bp = Blueprint('game', __name__, url_prefix='/game')
 
-@bp.get('/start')
-def start_get():
-    return "example"
+@bp.get('/map')
+def map_get():
+    return render_template("map.html")
