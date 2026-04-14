@@ -8,8 +8,7 @@ c = db.cursor()
 c.executescript("""
     DROP TABLE IF EXISTS DefaultRooms;
     CREATE TABLE DefaultRooms (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
+        name TEXT PRIMARY KEY UNIQUE,
         capacity INTEGER
     );
 
@@ -31,7 +30,7 @@ c.executescript("""
     CREATE TABLE Games (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT,
-        currLocation INTEGER,
+        currLocation TEXT,
         charisma INTEGER DEFAULT 40,
         moves INTEGER DEFAULT 200,
         active INTEGER DEFAULT TRUE,
@@ -43,7 +42,7 @@ c.executescript("""
     CREATE TABLE Passengers (
         game INTEGER,
         id INTEGER,
-        room INTEGER,
+        room TEXT,
         FOREIGN KEY (game) REFERENCES Games(id),
         FOREIGN KEY (id) REFERENCES DefaultPassengers(id),
         FOREIGN KEY (room) REFERENCES DefaultRooms(id)
