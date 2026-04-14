@@ -3,7 +3,8 @@
 
 {% block content %}
 <br>
-<h2>Pick a class on the ship!</h2>
+<h2>Passenger Rooms</h2>
+<h3>Class</h3>
   {% for i in "ABCDEFG" %}
   <div class='row justify-content-center'>
   <div class="col-{{ loop.index }}">
@@ -15,6 +16,87 @@
     </div>
     {% endfor %}
 <br>
+<h2>Miscellaneous Rooms</h2>
+<div class='row justify-content-center g-3 p-4'>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-title="Entry Limit" data-bs-content="0 / 5">Kitchen</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Library</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Compass Platform</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Gymnasium</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Swimming Pool</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Squash Court</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Water Tank 1</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Water Tank 2</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 1</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 2</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 3</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 4</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 5</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Boiler Room 6</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Post Office</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Crew Room 1</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Crew Room 2</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Crew Room 3</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo 1</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo 2</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 1</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 2</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 3</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 4</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 5</button>
+  </div>
+  <div class="col-auto">
+    <button type="button" class="btn btn-primary py-2">Cargo 6</button>
+  </div>
+</div>
 {% endblock %}
 
 {% block js %}
