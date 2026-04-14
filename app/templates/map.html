@@ -2,4 +2,25 @@
 {% block title %}Map{% endblock %}
 
 {% block content %}
+<br>
+<h2>Pick a class on the ship!</h2>
+  {% for i in "ABCDEFG" %}
+  <div class='row justify-content-center'>
+  <div class="col-{{ loop.index }}">
+      <div class="d-grid gap-2 mx-auto mb-3">
+        <!-- {{ currCapacity }} / {{ totalCapacity }} -->
+        <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="focus" data-bs-title="Current Capacity" data-bs-content="2 / 100">{{ i }}</button>
+      </div>
+    </div>
+    </div>
+    {% endfor %}
+<br>
+{% endblock %}
+
+{% block js %}
+document.addEventListener("DOMContentLoaded", function () {
+  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl)
+  );
+});
 {% endblock %}
