@@ -1,124 +1,124 @@
 {
     "tier": {
         "A": {
-            "total": 15,
-            "survived": 2,
-            "percentage": 0.13333333333333333
+            "total": 22,
+            "survived": 7,
+            "percentage": 0.3181818181818182
         },
         "B": {
-            "total": 64,
-            "survived": 15,
-            "percentage": 0.234375
+            "total": 96,
+            "survived": 26,
+            "percentage": 0.2708333333333333
         },
         "C": {
-            "total": 71,
-            "survived": 20,
-            "percentage": 0.28169014084507044
+            "total": 114,
+            "survived": 34,
+            "percentage": 0.2982456140350877
         },
         "D": {
-            "total": 34,
-            "survived": 5,
-            "percentage": 0.14705882352941177
+            "total": 48,
+            "survived": 12,
+            "percentage": 0.25
         },
         "E": {
-            "total": 33,
-            "survived": 12,
-            "percentage": 0.36363636363636365
+            "total": 45,
+            "survived": 15,
+            "percentage": 0.3333333333333333
         },
         "F": {
-            "total": 13,
-            "survived": 3,
-            "percentage": 0.23076923076923078
+            "total": 21,
+            "survived": 4,
+            "percentage": 0.19047619047619047
         },
         "G": {
-            "total": 7,
+            "total": 9,
             "survived": 1,
-            "percentage": 0.14285714285714285
+            "percentage": 0.1111111111111111
         }
     },
     "gender": {
         "male": {
-            "total": 1630,
-            "survived": 270,
-            "percentage": 0.1656441717791411
+            "total": 838,
+            "survived": 138,
+            "percentage": 0.16467780429594273
         },
         "female": {
-            "total": 870,
-            "survived": 431,
-            "percentage": 0.4954022988505747
+            "total": 471,
+            "survived": 229,
+            "percentage": 0.4861995753715499
         }
     },
     "age": {
         "child": {
-            "total": 271,
-            "survived": 98,
-            "percentage": 0.36162361623616235
+            "total": 134,
+            "survived": 52,
+            "percentage": 0.3880597014925373
         },
         "teenager": {
-            "total": 286,
-            "survived": 81,
-            "percentage": 0.28321678321678323
+            "total": 151,
+            "survived": 42,
+            "percentage": 0.2781456953642384
         },
         "young adult": {
-            "total": 1087,
-            "survived": 287,
-            "percentage": 0.2640294388224471
+            "total": 566,
+            "survived": 153,
+            "percentage": 0.2703180212014134
         },
         "adult": {
-            "total": 835,
-            "survived": 229,
-            "percentage": 0.274251497005988
+            "total": 449,
+            "survived": 117,
+            "percentage": 0.26057906458797325
         },
         "senior": {
-            "total": 21,
-            "survived": 6,
-            "percentage": 0.2857142857142857
+            "total": 9,
+            "survived": 3,
+            "percentage": 0.3333333333333333
         }
     },
     "isAlone": {
         "true": {
-            "total": 1037,
-            "survived": 284,
-            "percentage": 0.2738669238187078
+            "total": 574,
+            "survived": 158,
+            "percentage": 0.27526132404181186
         },
         "false": {
-            "total": 1463,
-            "survived": 417,
-            "percentage": 0.28503075871496925
+            "total": 735,
+            "survived": 209,
+            "percentage": 0.28435374149659864
         }
     },
     "class": {
         "1": {
-            "total": 617,
-            "survived": 255,
-            "percentage": 0.413290113452188
+            "total": 334,
+            "survived": 140,
+            "percentage": 0.41916167664670656
         },
         "2": {
-            "total": 497,
-            "survived": 124,
-            "percentage": 0.24949698189134809
+            "total": 257,
+            "survived": 62,
+            "percentage": 0.24124513618677043
         },
         "3": {
-            "total": 1386,
-            "survived": 322,
-            "percentage": 0.23232323232323232
+            "total": 718,
+            "survived": 165,
+            "percentage": 0.2298050139275766
         }
     },
     "port": {
         "Q": {
-            "total": 77,
-            "survived": 20,
-            "percentage": 0.2597402597402597
+            "total": 123,
+            "survived": 35,
+            "percentage": 0.2845528455284553
         },
         "S": {
-            "total": 644,
-            "survived": 182,
-            "percentage": 0.2826086956521739
+            "total": 914,
+            "survived": 259,
+            "percentage": 0.2833698030634573
         },
         "C": {
-            "total": 168,
-            "survived": 42,
-            "percentage": 0.25
+            "total": 270,
+            "survived": 71,
+            "percentage": 0.26296296296296295
         }
     }
 }
