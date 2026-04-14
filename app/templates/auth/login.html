@@ -10,7 +10,7 @@ body{
     background-attachment: fixed;
 }
 </style>
-	<div class="hold">
+	<div id="hold" class="aaa">
             <h1>
                 Login
             </h1>
@@ -39,5 +39,13 @@ body{
         <br>
 
     <script>
+    window.addEventListener('load', () => {
+        if(document.querySelector('#hold') !== null){
+            window.sessionStorage.setItem('Hold', 'displayed');
+        }
+    })
+    if (window.sessionStorage.getItem('Hold')) {
+        document.querySelector('#hold').classList.remove('aaa')
+    }
     </script>
 {% endblock %}

@@ -25,5 +25,11 @@ JamesL -- 2026-03-30 20:30
 JamesL -- 2026-04-01 10:30
 - parsed cabin, name, and port
 
+CarrieK -- 2026-04-01 11:00
+- css
+
 JamesL -- 2026-04-13 21:00
 - calculated survival chances for rest of stats
+
+CarrieK -- 2026-04-13 22:34
+- css
