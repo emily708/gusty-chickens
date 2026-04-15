@@ -7,9 +7,9 @@ room_capacities = {
     "B": 100,
     "C": 150,
     "D": 50,
-    "E": 50,
-    "F": 30,
-    "G": 10
+    "E": 300,
+    "F": 400,
+    "G": 400
 }
 
 for key in room_capacities:

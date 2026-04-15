@@ -38,5 +38,7 @@ def login_post():
 
 @bp.get("/logout")
 def logout_get():
+    # Clears game on log out
+    general_query("UPDATE Games SET active=FALSE WHERE username=?", [session["username"]])
     session.clear()
     return redirect(url_for("auth.login_get"))
