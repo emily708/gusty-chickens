@@ -70,6 +70,7 @@ def start_get():
 
 @bp.get('/map')
 def map_get():
+    session["game"] = 1
     game = session["game"]
     return render_template("map.html")
 
@@ -92,3 +93,14 @@ def rooms_get(place):
 
 def access_room():
     return render_template(f"{place}.html")
+
+@bp.get("/chart/example")
+#sample chart w percentages for each trait
+def chart_get():
+    labels = []
+    values = []
+    for category, items in data.items():
+        for value, stats in items.items():
+            labels.append(f"{category}: {value}")
+            values.append(stats["percentage"])
+    return render_template("chart.html", labels=labels, values=values)

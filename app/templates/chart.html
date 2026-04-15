@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<h2>Survival Chart</h2>
+
+<canvas id="chart"></canvas>
+
+<script>
+    const labels = {{ labels | tojson }};
+    const values = {{ values | tojson }};
+
+    const ctx = document.getElementById('chart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'percentage',
+                data: values,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 1
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
