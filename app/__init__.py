@@ -18,11 +18,17 @@ def check_authentification():
 
 @app.get("/")
 def home_get():
-    return render_template('startscreen.html')
+    if 'game' in session:
+        return render_template('startscreen.html', link="url_for('game.start_get')")
+    return render_template('startscreen.html', link="url_for('auth.login_get')")
 
 @app.get("/load")
 def load_get():
     return render_template('load.html')
+
+@app.get("/lore")
+def lore_get():
+    return render_template('lore.html')
 
 if __name__ == '__main__':
     app.debug = True
