@@ -83,16 +83,17 @@ def end_get():
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):
-    room = select_query("SELECT * FROM DefaultRooms WHERE name=?", [place])[0]
-    capacity = room["capacity"]
+    if place in ["A", "B", "C", "D", "E", "F", "G"]:
+        room = select_query("SELECT * FROM DefaultRooms WHERE name=?", [place])[0]
+        capacity = room["capacity"]
 
-    passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
+        passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
-    parsed = []
-    for passenger in passengers:
-        parsed.append(calculate_odds(passenger["id"]))
+        parsed = []
+        for passenger in passengers:
+            parsed.append(calculate_odds(passenger["id"]))
 
-    return "hi"
+        return render_template("rooms/tier.html", passengers=passengers)
 
 def access_room():
     return render_template(f"{place}.html")
