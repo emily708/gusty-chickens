@@ -31,7 +31,7 @@ def login_post():
     rows = select_query("SELECT * FROM Users WHERE username=?", [username])
     if len(rows) != 0 and check_password_hash(rows[0]['password'], password):
         session['username'] = username
-        return redirect(url_for('home_get'))
+        return redirect(url_for('load_get'))
     else:
         flash('Invalid username or password.', 'error')
         return redirect(url_for('auth.login_get'))
