@@ -108,3 +108,9 @@ def chart_get():
             labels.append(f"{category}: {value}")
             values.append(stats["percentage"])
     return render_template("chart.html", labels=labels, values=values)
+
+#@bp.get("/chart/<int:passenger_id>")
+#def passenger_chart_get(passenger_id):
+#    values = []
+#
+#    return render_template("chart.html", labels = labels, differences = values)
