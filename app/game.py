@@ -22,7 +22,7 @@ def calculate_odds(passenger_id):
         },
         "isAlone": {},
         "age": {},
-        "tier": {}
+        "tier": {},
     }
     percentages["isAlone"]["value"] = "true" if passenger["isAlone"] == 1 else "false"
     age = passenger["age"]
@@ -39,8 +39,11 @@ def calculate_odds(passenger_id):
     percentages["age"]["value"] = age_group
     passenger = select_query("SELECT * FROM Passengers WHERE game=? AND id=?", [session["game"], passenger_id])[0]
     percentages["tier"]["value"] = passenger["room"]
+    total = 0
     for key in percentages:
         percentages[key]["percentage"] = data[key][percentages[key]["value"]]["percentage"]
+        total += percentages[key]["percentage"]
+    percentages["total"] = total / 6
     return percentages
 
 @bp.get('/start')
@@ -80,15 +83,16 @@ def end_get():
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):
-    room_names = DefaultRooms().get(name)
-    with sqlite3.connect(DB_FILE) as db:
-        c = db.cursor()
-        # get passengers for the room accessed
+    room = select_query("SELECT * FROM DefaultRooms WHERE name=?", [place])[0]
+    capacity = room["capacity"]
 
-        # parse and display on a table in html file
+    passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
-        # add a checkbox next to each passenger to move
-    return access_room(place)
+    parsed = []
+    for passenger in passengers:
+        parsed.append(calculate_odds(passenger["id"]))
+
+    return "hi"
 
 def access_room():
     return render_template(f"{place}.html")
