@@ -20,6 +20,10 @@ def check_authentification():
 def home_get():
     return render_template('startscreen.html')
 
+@app.get("/load")
+def load_get():
+    return render_template('load.html')
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
