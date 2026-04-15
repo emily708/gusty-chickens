@@ -42,15 +42,23 @@ source venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
-6) Create databases:
+6) Change into the app directory
 ```
-python3 app/build_db.py
-```  
+cd app
+```
+7) Create databases:
+```
+python3 build_db.py
+```
+8) Populate databases:
+```
+python3 populate.py
+```
 
 ## Launch codes
 1) Run the app through Flask:
 ```
-python3 app/__init__.py
+python3 __init__.py
 ```
 2) Open the link:
 ```
