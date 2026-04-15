@@ -54,6 +54,10 @@ python3 build_db.py
 ```
 python3 populate.py
 ```
+9) Convert data to json:
+```
+python3 survival_rates.py
+```
 
 ## Launch codes
 1) Run the app through Flask:
