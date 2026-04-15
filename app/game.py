@@ -22,7 +22,8 @@ def calculate_odds(passenger_id):
         },
         "isAlone": {},
         "age": {},
-        "tier": {}
+        "tier": {},
+        "total": 0
     }
     percentages["isAlone"]["value"] = "true" if passenger["isAlone"] == 1 else "false"
     age = passenger["age"]
@@ -39,8 +40,11 @@ def calculate_odds(passenger_id):
     percentages["age"]["value"] = age_group
     passenger = select_query("SELECT * FROM Passengers WHERE game=? AND id=?", [session["game"], passenger_id])[0]
     percentages["tier"]["value"] = passenger["room"]
+    total = 0
     for key in percentages:
         percentages[key]["percentage"] = data[key][percentages[key]["value"]]["percentage"]
+        total += percentages[key]["percentage"]
+    percentages["total"] = total / 6
     return percentages
 
 @bp.get('/start')
