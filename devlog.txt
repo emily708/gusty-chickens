@@ -22,6 +22,9 @@ JamesL -- 2026-03-30 20:30
 - ported over database code
 - finished build_db and worked on parsing csv
 
+EmilyM -- 2026-04-01 04:49
+- edited code formatting and added requirements.txt
+
 JamesL -- 2026-04-01 10:30
 - parsed cabin, name, and port
 
@@ -40,3 +43,7 @@ AmyS -- 2026-04-13 22:58
 
 CarrieK -- 2026-04-14 22:49
 - load js css
+
+EmilyM -- 2026-04-15 09:10
+- added example chart using chart.js
+- updated install guide

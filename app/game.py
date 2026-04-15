@@ -70,7 +70,6 @@ def start_get():
 
 @bp.get('/map')
 def map_get():
-    session["game"] = 1
     game = session["game"]
     return render_template("map.html")
 
