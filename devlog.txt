@@ -37,3 +37,6 @@ CarrieK -- 2026-04-13 22:34
 AmyS -- 2026-04-13 22:58
 - added host server wsgi.py
 - created pyramid map and popover of carrying capacity
+
+CarrieK -- 2026-04-14 22:49
+- load js css
