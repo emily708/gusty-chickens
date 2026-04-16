@@ -53,6 +53,17 @@ def start_get():
         "currLocation": "Compass Platform"
     })
     session["game"] = game["id"]
+
+    temp = select_query("SELECT * FROM DefaultRooms")
+    capacities = {};
+
+    for room in temp:
+        if room["name"] in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
+            capacities[room["name"]] = {
+                "max": room["capacity"],
+                "used": 0
+            }
+
     passengers = select_query("SELECT * FROM DefaultPassengers")
     for passenger in passengers:
         cabin = passenger["cabin"][0] if len(passenger["cabin"]) > 0 else ""
@@ -68,7 +79,13 @@ def start_get():
             "id": passenger["id"],
             "room": cabin,
         })
-    calculate_odds(10)
+        capacities[cabin]["used"] += 1
+    for room in ["A", "B", "C", "D", "E", "F", "G"]:
+        insert_query("rooms", {
+            "game": session["game"],
+            "usedCapacity": capacities[room]["used"],
+            "room": room
+        })
     return redirect("/game/map")
 
 @bp.get('/map')
@@ -86,6 +103,11 @@ def rooms_get(place):
     if place in ["A", "B", "C", "D", "E", "F", "G"]:
         room = select_query("SELECT * FROM DefaultRooms WHERE name=?", [place])[0]
         capacity = room["capacity"]
+
+        print(session["game"])
+
+        numPeople = select_query("SELECT * FROM Rooms")
+        print(numPeople)
 
         passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
@@ -112,6 +134,8 @@ def rooms_get(place):
 def move_get():
     passenger = request.form.get("passengerId")
     destination = request.form.get("room")
+
+    general_query("UPDATE Games SET moves=moves-1 WHERE id=?", session["id"]);
 
     # Update Actions
 

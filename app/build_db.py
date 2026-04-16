@@ -48,6 +48,15 @@ c.executescript("""
         FOREIGN KEY (room) REFERENCES DefaultRooms(id)
     );
 
+    DROP TABLE IF EXISTS Rooms;
+    CREATE TABLE Rooms (
+        game INTEGER,
+        usedCapacity INTEGER DEFAULT 0,
+        room TEXT,
+        FOREIGN KEY (game) REFERENCES Games(id),
+        FOREIGN KEY (room) REFERENCES DefaultRooms(id)
+    );
+
     DROP TABLE IF EXISTS Items;
     CREATE TABLE Items (
         name TEXT,
