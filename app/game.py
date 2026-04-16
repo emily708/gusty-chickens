@@ -120,8 +120,18 @@ def chart_get():
             values.append(stats["percentage"])
     return render_template("chart.html", labels=labels, values=values)
 
-#@bp.get("/chart/<int:passenger_id>")
-#def passenger_chart_get(passenger_id):
-#    values = []
-#
-#    return render_template("chart.html", labels = labels, differences = values)
+#chart by passenger_id
+@bp.get("/chart/<int:passenger_id>")
+def passenger_chart_get(passenger_id):
+    percentages = calculate_odds(passenger_id)
+    labels = []
+    values = []
+    total = percentages["total"]
+    for category, items in percentages.items():
+        if category == "total":
+            continue
+        label = f"{category}: {items['value']}"
+        difference = items["percentage"] - total
+        labels.append(label)
+        values.append(difference)
+    return render_template("chart.html", labels = labels, values = values)
