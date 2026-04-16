@@ -70,6 +70,14 @@ justify-content: center;
     transform: translateY(-30px);
 }
 }
+@keyframes bounce2 {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+}
+}
 .center2{
          text-align: center;
          font-size: 400%;
@@ -157,6 +165,24 @@ a:link {
         background-color: black;
          }
          #play{
+         margin-left: 90vw;
+         }
+         #play2{
+         margin-left: 90vw;
+         }
+         #play3{
+         margin-left: 90vw;
+         }
+         #play4{
+         margin-left: 90vw;
+         }
+         #play5{
+         margin-left: 90vw;
+         }
+         #play6{
+         margin-left: 90vw;
+         }
+         #continue{
          margin-left: 90vw;
          }
          #first{

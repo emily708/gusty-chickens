@@ -9,6 +9,9 @@
 
 {% block content %}
 <style>
+html, body{
+    overflow: hidden;
+}
 #bg{
     background-image: linear-gradient(rgba(24, 26, 73, 0.45), rgba(24, 26, 73, 0.45)), url("/static/ocean.png");
     background-repeat: no-repeat;
@@ -19,7 +22,6 @@
     top: 0;
     left: 0;
     position: absolute;
-    opacity: 1;
     	 z-index: -10000;
     background-position: 0 -300px;
 }
@@ -37,6 +39,16 @@
 .anim3{
 	animation: appear 2s ease 2s forwards;
 	opacity: 0;
+}
+.anim4{
+	animation: black 7s ease;
+	opacity 0;
+}
+.anim5{
+	animation: boom 0.15s 5;
+}
+.anim6{
+	animation: bounce2 10s infinite ease-in-out;
 }
 @keyframes black {
     from{
@@ -68,16 +80,140 @@
 a:hover{
 	color: red;
 }
+#img{
+	position: absolute;
+	margin-left: 400px;
+	margin-top: 145px;
+	opacity: 0;
+}
+@keyframes boom {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
 </style>
 
 <div id="bg" class="anim"></div>
+<div id="img"><img style="width: 800px; height; auto;"src="/static/berg.png" alt="berg"></div>
 	<div id="container">
 	<div class="box">
             <p> &lt; system &gt;</p>
             <p id="first"><br></p>
-
-            <button class="button1" id="play"> <img class="img" src="/static/play.png" alt="play"> </button>
+		<br>
+		<br>
+            <button class="button1" id="play"> <img src="/static/play.png" alt="play"> </button>
+	    <button class="button1" id="play2" style="display: none;"> <img src="/static/play.png" alt="play"> </button>
+	    <button class="button1" id="play3" style="display: none;"> <img src="/static/play.png" alt="play"> </button>
+	    <button class="button1" id="play4" style="display: none;"> <img src="/static/play.png" alt="play"> </button>
+	    <button class="button1" id="play5" style="display: none;"> <img src="/static/play.png" alt="play"> </button>
+	    <button class="button1" id="play6" style="display: none;"> <img src="/static/play.png" alt="play"> </button>
+	    <a href="{{url_for('game.start_get')}}"><button class="button1" id="continue" style="display: none;"> <img src="/static/play.png" alt="play"> </button> </a>
          </div>
 	</div>
-
+   <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          let letter = 0;
+          let letter2 = 0;
+          let letter3 = 0;
+          let letter4 = 0;
+          let letter5 = 0;
+          let letter6 = 0;
+          const text = "You are the captain of the titanic, peacefully sailing on the seas."
+          const text2 = "As the day comes to an end, you begin to relax. Proud (and tired) after hard day's work of sailing, you begin to drift off when..."
+          const text3 = "You hit an iceberg!!!"
+          const text4 = "You begin to hear creaking."
+          const text5 = "You know time is slipping away. Your priority now is to save as many passengers as possible, before it's too late."
+          const text6 = "Good luck, captain!"
+          function uh(){
+              document.getElementById("first").innerHTML = "";
+          }
+          function typeText() {
+              if (letter < text.length) {
+                  document.getElementById("first").innerHTML += text.charAt(letter);
+                  letter++;
+                  let speed = 25;
+                  setTimeout(typeText, speed);
+              }
+          }
+          function typeText2() {
+              if (letter2 < text2.length) {
+                  document.getElementById("first").innerHTML += text2.charAt(letter2);
+                  letter2++;
+		  let speed = 25;
+		  if(letter2 >= (text2.length - 3)){
+                      speed = 300;
+		  }
+                  setTimeout(typeText2, speed);
+              }
+          }
+          function typeText3() {
+              if (letter3 < text3.length) {
+                  document.getElementById("first").innerHTML += text3.charAt(letter3);
+                  letter3++;
+		  let speed = 25;
+                  setTimeout(typeText3, speed);
+              }
+          }
+          function typeText4() {
+              if (letter4 < text4.length) {
+                  document.getElementById("first").innerHTML += text4.charAt(letter4);
+                  letter4++;
+		  let speed = 25;
+                  setTimeout(typeText4, speed);
+              }
+          }
+          function typeText5() {
+              if (letter5 < text5.length) {
+                  document.getElementById("first").innerHTML += text5.charAt(letter5);
+                  letter5++;
+		  let speed = 25;
+                  setTimeout(typeText5, speed);
+              }
+          }
+          function typeText6() {
+              if (letter6 < text6.length) {
+                  document.getElementById("first").innerHTML += text6.charAt(letter6);
+                  letter6++;
+		  let speed = 25;
+                  setTimeout(typeText6, speed);
+              }
+          }
+	  function show1(){
+	      document.getElementById("play2").style.opacity = 1;
+	  }
+	  function show2(){
+	      document.getElementById("play3").style.opacity = 1;
+	  }
+	  function show3(){
+	      document.getElementById("play4").style.opacity = 1;
+	  }
+	  function show4(){
+	      document.getElementById("play5").style.opacity = 1;
+	  }
+	  function show5(){
+	      document.getElementById("play6").style.opacity = 1;
+	  }
+	  function show6(){
+	      document.getElementById("continue").style.opacity = 1;
+	  }
+	  function ani(){
+	      document.getElementById('bg').className = 'anim4';
+	  }
+	  function ani2(){
+	      document.getElementById('bg').className = 'anim5';
+	      document.getElementById('img').className = 'anim5';
+	  }
+	  function ani3(){
+	      document.getElementById('img').className = 'anim6';
+	  }
+          document.getElementById("play").onclick = function() {this.style.display = 'none'; document.getElementById("play2").style.display = 'inline'; document.getElementById("play2").style.opacity = 0; uh(); typeText(); setTimeout(show1, 2000);};
+          document.getElementById("play2").onclick = function() {document.getElementById("bg").style.opacity = 0; ani(); this.style.display = 'none'; document.getElementById("play3").style.display = 'inline'; document.getElementById("play3").style.opacity = 0; uh(); typeText2(); setTimeout(show2, 7000);};
+          document.getElementById("play3").onclick = function() {document.getElementById("bg").style.opacity = 1; ani2(); setTimeout(ani3, 600); document.getElementById("img").style.opacity = 1; this.style.display = 'none'; document.getElementById("play4").style.display = 'inline'; document.getElementById("play4").style.opacity = 0; uh(); typeText3(); setTimeout(show3, 700);};
+          document.getElementById("play4").onclick = function() {this.style.display = 'none'; document.getElementById("play5").style.display = 'inline'; document.getElementById("play5").style.opacity = 0; uh(); typeText4(); setTimeout(show4, 700);};
+          document.getElementById("play5").onclick = function() {this.style.display = 'none'; document.getElementById("play6").style.display = 'inline'; document.getElementById("play6").style.opacity = 0; uh(); typeText5(); setTimeout(show5, 3000);};
+          document.getElementById("play6").onclick = function() {this.style.display = 'none'; document.getElementById("continue").style.display = 'inline'; document.getElementById("continue").style.opacity = 0; uh(); typeText6(); setTimeout(show6, 700);};
+      });
+   </script>
 {% endblock %}
