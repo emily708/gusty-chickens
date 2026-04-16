@@ -35,3 +35,9 @@ def general_query(query_string, parameters=()):
     c.execute(query_string, parameters)
     c.close()
     db.commit()
+
+def batch_query(query_string, params):
+    c = db.cursor()
+    c.executemany(query_string, params)
+    c.close()
+    db.commit()

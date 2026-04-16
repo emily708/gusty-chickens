@@ -6,12 +6,6 @@ db = sqlite3.connect(DB_FILE)
 c = db.cursor()
 
 c.executescript("""
-    DROP TABLE IF EXISTS DefaultRooms;
-    CREATE TABLE DefaultRooms (
-        name TEXT PRIMARY KEY UNIQUE,
-        capacity INTEGER
-    );
-
     DROP TABLE IF EXISTS DefaultPassengers;
     CREATE TABLE DefaultPassengers (
         id INTEGER PRIMARY KEY,
