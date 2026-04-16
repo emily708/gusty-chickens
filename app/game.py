@@ -90,7 +90,21 @@ def rooms_get(place):
         passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
         for passenger in passengers:
-            passenger["odds"] = calculate_odds(passenger["id"])
+            percentages = calculate_odds(passenger["id"])
+
+            labels = []
+            values = []
+            total = percentages["total"]
+            for category, items in percentages.items():
+                if category == "total":
+                    continue
+                label = f"{category}: {items['value']}"
+                difference = items["percentage"] - total
+                labels.append(label)
+                values.append(difference)
+
+            passenger["labels"] = labels
+            passenger["values"] = values
 
         return render_template("rooms/tier.html", passengers=passengers, room=room)
 
@@ -100,7 +114,7 @@ def move_get():
     destination = request.form.get("room")
 
     # Update Actions
-    
+
     # Flash Response
 
     flash("outcome", "success")
@@ -108,30 +122,3 @@ def move_get():
 
 def access_room():
     return render_template(f"{place}.html")
-
-@bp.get("/chart/example")
-#sample chart w percentages for each trait
-def chart_get():
-    labels = []
-    values = []
-    for category, items in data.items():
-        for value, stats in items.items():
-            labels.append(f"{category}: {value}")
-            values.append(stats["percentage"])
-    return render_template("chart.html", labels=labels, values=values)
-
-#chart by passenger_id
-@bp.get("/chart/<int:passenger_id>")
-def passenger_chart_get(passenger_id):
-    percentages = calculate_odds(passenger_id)
-    labels = []
-    values = []
-    total = percentages["total"]
-    for category, items in percentages.items():
-        if category == "total":
-            continue
-        label = f"{category}: {items['value']}"
-        difference = items["percentage"] - total
-        labels.append(label)
-        values.append(difference)
-    return render_template("chart.html", labels = labels, values = values)
