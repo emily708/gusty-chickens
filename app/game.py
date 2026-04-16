@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, session, Blueprint
+from flask import Flask, render_template, request, flash, redirect, session, Blueprint, url_for
 from db import select_query, insert_query, general_query
 import random
 import json
@@ -70,6 +70,16 @@ def start_get():
         })
     calculate_odds(10)
     return redirect("/game/map")
+
+@bp.get('/loadsave')
+def load_save():
+    temp = select_query("SELECT * FROM Games WHERE username=?", (session["username"],))
+    if len(temp) != 0:
+        session["game"] = temp[0]
+        return redirect("/game/map")
+    else:
+        flash("You don't have a saved game!", 'error')
+        return redirect(url_for("load_get"))
 
 @bp.get('/map')
 def map_get():

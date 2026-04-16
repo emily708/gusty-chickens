@@ -24,7 +24,7 @@ def home_get():
 
 @app.get("/load")
 def load_get():
-    return render_template('load.html')
+    return render_template('load.html', msg="Do you want to load an old save or start a new one?")
 
 @app.get("/lore")
 def lore_get():
