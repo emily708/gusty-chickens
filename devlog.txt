@@ -47,3 +47,7 @@ CarrieK -- 2026-04-14 22:49
 EmilyM -- 2026-04-15 09:10
 - added example chart using chart.js
 - updated install guide
+
+JamesL -- 2026-04-15 21:10
+- added tier rooms
+- added css for flash fucntionality

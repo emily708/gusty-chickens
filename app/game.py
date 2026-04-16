@@ -89,11 +89,22 @@ def rooms_get(place):
 
         passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
-        parsed = []
         for passenger in passengers:
-            parsed.append(calculate_odds(passenger["id"]))
+            passenger["odds"] = calculate_odds(passenger["id"])
 
-        return render_template("rooms/tier.html", passengers=passengers)
+        return render_template("rooms/tier.html", passengers=passengers, room=room)
+
+@bp.post('/move-person')
+def move_get():
+    passenger = request.form.get("passengerId")
+    destination = request.form.get("room")
+
+    # Update Actions
+    
+    # Flash Response
+
+    flash("outcome", "success")
+    return redirect(request.referrer)
 
 def access_room():
     return render_template(f"{place}.html")

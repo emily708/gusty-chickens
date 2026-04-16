@@ -1,0 +1,20 @@
+.flashes {
+  padding: 10px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  margin: 8px;
+  border-radius: 10%;
+}
+
+.error {
+  background-color: #ce1b1b;
+}
+
+.info {
+  background-color: #54b25f;
+}
+
+.success {
+  background-color: #6dc477;
+}
