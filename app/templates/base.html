@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/flash.css">
     {% block head %}
     {% endblock %}
 </head>
@@ -14,13 +15,13 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       {% for category, message in messages %}
-        <p class="flashes {{ category }}">{{ message }}</p>
+        <p class="flashes {{ category }}" onclick="this.style.display='none'">{{ message }}</p>
       {% endfor %}
       {% endif %}
     {% endwith %}
 
-      {% block content %}
-      {% endblock %}
+    {% block content %}
+    {% endblock %}
   </body>
 
   <script>
