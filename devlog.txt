@@ -58,6 +58,9 @@ CarrieK -- 2026-04-15 21:31
 EmilyM -- 2026-04-16 01:50
 - added survival rate charts by passenger id
 
+AmyS -- 2026-04-17 23:59
+- added curr capacities out of total cap to rooms
+
 HOME STRETCH CHECKLIST:
 ------------------------------------
 * work on moving passengers across different rooms and how that affects their survival rate :: James Lei
