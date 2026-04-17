@@ -201,6 +201,7 @@ a:link {
          bottom: 0;
          }
          .button1{
+	color: white;
          border: none;
          margin-top: 50px;
          background-color: rgba(0, 0, 0, 0);

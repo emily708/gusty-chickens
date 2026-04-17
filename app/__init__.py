@@ -23,7 +23,17 @@ def home_get():
 
 @app.get("/load")
 def load_get():
-    return render_template('load.html', msg="Do you want to load an old save or start a new one?")
+    return render_template('load.html')
+
+@app.get('/loadsave')
+def load_save():
+    temp = select_query("SELECT * FROM Games WHERE username=?", (session["username"],))
+    if len(temp) != 0:
+        session["game"] = temp[0]
+        return redirect("/game/map")
+    else:
+        flash("You don't have a saved game!", "error")
+        return redirect(url_for("load_get"))
 
 @app.get("/lore")
 def lore_get():
