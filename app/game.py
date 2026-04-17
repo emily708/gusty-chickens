@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session, Blu
 from db import *
 import random
 import json
+import random
 import constants
 
 with open('data.json', 'r') as file:
@@ -9,8 +10,18 @@ with open('data.json', 'r') as file:
 
 bp = Blueprint('game', __name__, url_prefix='/game')
 
-def calculate_odds(passenger_id):
-    passenger = select_query("SELECT * FROM DefaultPassengers WHERE id=?", [passenger_id])[0]
+@bp.before_request
+def check_game_state():
+    if 'game' in session:
+        if 'start' in request.path:
+            flash("You already have a game in progress!", "error")
+            return redirect('/game/map')
+    else:
+        if 'start' not in request.path:
+            flash("Starting a new game...", "info")
+            return redirect('/game/start')
+
+def calculate_odds(passenger):
     percentages = {
         "class": {
             "value": str(passenger["class"]),
@@ -39,8 +50,6 @@ def calculate_odds(passenger_id):
     else:
         age_group = "senior"
     percentages["age"]["value"] = age_group
-
-    passenger = select_query("SELECT * FROM Passengers WHERE game=? AND id=?", [session["game"], passenger_id])[0]
     percentages["tier"]["value"] = passenger["room"]
 
     total = 0
@@ -109,7 +118,20 @@ def map_get():
 @bp.get('/end')
 def end_get():
     general_query("UPDATE Games SET active=FALSE WHERE id=?", [session["game"]])
-    return redirect("/")
+
+    passengers = select_query("SELECT Passengers.id, survived, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=?", [session["game"]])
+
+    for passenger in passengers:
+        passenger["odds"] = calculate_odds(passenger)
+        if random.random() < passenger["odds"]["total"]:
+            passenger["outcome"] = "survived"
+        else:
+            passenger["outcome"] = "died"
+
+    # Visualize passengers
+
+    session.pop('game', None)
+    return render_template("result.html")
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):
@@ -122,7 +144,7 @@ def rooms_get(place):
         passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
         for passenger in passengers:
-            percentages = calculate_odds(passenger["id"])
+            percentages = calculate_odds(passenger)
 
             labels = []
             values = []
