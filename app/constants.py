@@ -21,5 +21,8 @@ rooms = {
     "G": {
       "capacity": 400
     }
+  },
+  "miscelaneous": {
+    
   }
 }

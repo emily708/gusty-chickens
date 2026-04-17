@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, session, Blueprint, url_for
-from db import select_query, insert_query, general_query
+from db import *
 import random
 import json
+import constants
 
 with open('data.json', 'r') as file:
     data = json.load(file)
@@ -24,6 +25,7 @@ def calculate_odds(passenger_id):
         "age": {},
         "tier": {},
     }
+
     percentages["isAlone"]["value"] = "true" if passenger["isAlone"] == 1 else "false"
     age = passenger["age"]
     if age <= 12:
@@ -37,12 +39,17 @@ def calculate_odds(passenger_id):
     else:
         age_group = "senior"
     percentages["age"]["value"] = age_group
+
     passenger = select_query("SELECT * FROM Passengers WHERE game=? AND id=?", [session["game"], passenger_id])[0]
     percentages["tier"]["value"] = passenger["room"]
+
     total = 0
     for key in percentages:
+        if percentages[key]["value"] == "":
+            continue
         percentages[key]["percentage"] = data[key][percentages[key]["value"]]["percentage"]
         total += percentages[key]["percentage"]
+    
     percentages["total"] = total / 6
     return percentages
 
@@ -54,38 +61,34 @@ def start_get():
     })
     session["game"] = game["id"]
 
-    temp = select_query("SELECT * FROM DefaultRooms")
-    capacities = {};
+    room_use = {}
+    for room in constants.rooms["tiers"]:
+        room_use[room] = 0
 
-    for room in temp:
-        if room["name"] in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
-            capacities[room["name"]] = {
-                "max": room["capacity"],
-                "used": 0
-            }
-
+    assignments = []
     passengers = select_query("SELECT * FROM DefaultPassengers")
     for passenger in passengers:
         cabin = passenger["cabin"][0] if len(passenger["cabin"]) > 0 else ""
-        if cabin not in ["A", "B", "C", "D", "E", "F", "G"]:
+        
+        # Assign Random
+        if cabin not in constants.rooms["tiers"].keys():
             if passenger["class"] == 1:
                 cabin = random.choice(["A", "B", "C", "D", "E"])
             elif passenger["class"] == 2:
                 cabin = random.choice(["C", "D", "E"])
             else:
                 cabin = random.choice(["E", "F", "G"])
-        insert_query("Passengers", {
-            "game": game["id"],
-            "id": passenger["id"],
-            "room": cabin,
-        })
-        capacities[cabin]["used"] += 1
-    for room in ["A", "B", "C", "D", "E", "F", "G"]:
-        insert_query("rooms", {
-            "game": session["game"],
-            "usedCapacity": capacities[room]["used"],
-            "room": room
-        })
+        
+        assignments.append((game["id"], passenger["id"], cabin))
+        room_use[cabin] += 1
+    
+    batch_query("INSERT INTO Passengers (game, id, room) VALUES (?, ?, ?)", assignments)
+
+    data = []
+    for room in constants.rooms["tiers"].keys():
+        data.append((session["game"], room_use[room], room))
+    batch_query("INSERT INTO Rooms (game, usedCapacity, room) VALUES (?, ?, ?)", data)
+
     return redirect("/game/map")
 
 @bp.get('/loadsave')
@@ -111,13 +114,8 @@ def end_get():
 @bp.get('/rooms/<place>')
 def rooms_get(place):
     if place in ["A", "B", "C", "D", "E", "F", "G"]:
-        room = select_query("SELECT * FROM DefaultRooms WHERE name=?", [place])[0]
-        capacity = room["capacity"]
-
-        print(session["game"])
-
-        numPeople = select_query("SELECT * FROM Rooms")
-        print(numPeople)
+        room = select_query("SELECT * FROM Rooms WHERE game=? AND room=?", (session["game"], place))[0]
+        room["capacity"] = constants.rooms["tiers"][place]["capacity"]
 
         passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
@@ -128,7 +126,7 @@ def rooms_get(place):
             values = []
             total = percentages["total"]
             for category, items in percentages.items():
-                if category == "total":
+                if category == "total" or "percentage" not in items:
                     continue
                 label = f"{category}: {items['value']}"
                 difference = items["percentage"] - total
