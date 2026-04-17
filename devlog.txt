@@ -65,3 +65,8 @@ HOME STRETCH CHECKLIST:
 * finish game visuals, storyline, and css styling:: Carrie Ko
 * implement mechanics of the miscellaneous rooms on the ship :: Amy Shrestha
 ====================================
+
+JamesL -- 2026-04-16 20:50
+- added template for ending game
+- sped up database operations
+- allowed movement of passengers between rooms
