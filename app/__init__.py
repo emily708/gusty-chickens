@@ -32,7 +32,7 @@ def load_save():
     if len(temp) != 0:
         session["game"] = temp[0]
         return redirect("/game/map")
-    #else:
+    else:
         flash("You don't have a saved game!", "error")
         return redirect(url_for("load_get"))
 
