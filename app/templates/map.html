@@ -15,7 +15,7 @@
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/rooms/compass_platform.html" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="2 / 100">{{ i }}</a>
+        <a href="/rooms/compass_platform.html" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">{{ i }}</a>
       </div>
     </div>
     </div>

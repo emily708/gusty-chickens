@@ -103,7 +103,8 @@ def start_get():
 @bp.get('/map')
 def map_get():
     game = session["game"]
-    return render_template("map.html")
+    caps = get_capacity()
+    return render_template("map.html", caps=caps)
 
 @bp.get('/end')
 def end_get():
@@ -179,7 +180,6 @@ def move_get():
 
     return redirect(request.referrer)
 
-@bp.get('/testcap')
 def get_capacity():
     # {room name: [curr cap, total cap]}
     currCap = {}
