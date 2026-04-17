@@ -7,15 +7,13 @@
 {% block content %}
 <br>
 <h2>Passenger Rooms</h2>
-<a href="/game/rooms/compass_platform.html" type="button" class="btn btn-primary py-2">compass platform</a>
-<a href="/game/chart/example" type="button" class="btn btn-primary py-2">some chart thing</a>
 <h3>Class</h3>
   {% for i in "ABCDEFG" %}
   <div class='row justify-content-center'>
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/rooms/compass_platform.html" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">{{ i }}</a>
+        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">{{ i }}</a>
       </div>
     </div>
     </div>
