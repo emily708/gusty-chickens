@@ -113,6 +113,8 @@ def end_get():
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):
+    general_query("UPDATE Games SET currLocation=? WHERE id=?", (place, session["game"]))
+
     if place in ["A", "B", "C", "D", "E", "F", "G"]:
         room = select_query("SELECT * FROM Rooms WHERE game=? AND room=?", (session["game"], place))[0]
         room["capacity"] = constants.rooms["tiers"][place]["capacity"]
@@ -143,13 +145,26 @@ def move_get():
     passenger = request.form.get("passengerId")
     destination = request.form.get("room")
 
-    general_query("UPDATE Games SET moves=moves-1 WHERE id=?", session["id"]);
+    if destination == None:
+        flash("The passenger is already in this room!", "error")
+        return redirect(request.referrer)
 
-    # Update Actions
+    game = select_query("SELECT * FROM Games WHERE id=?", (session["game"],))[0]
 
-    # Flash Response
+    destination_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (destination, session["game"]))[0]
 
-    flash("outcome", "success")
+    if destination_room["usedCapacity"] >= constants.rooms["tiers"][destination]["capacity"]:
+        flash("Destination room is at capacity! No action performed", "error")
+    else:
+        general_query("UPDATE Games SET moves=moves-1 WHERE id=?", (session["game"],))
+        general_query("UPDATE Rooms SET usedCapacity=usedCapacity-1 WHERE game=? AND room=?",
+                        (session["game"], game["currLocation"]))
+        general_query("UPDATE Rooms SET usedCapacity=usedCapacity+1 WHERE game=? AND room=?",
+                        (session["game"], destination))
+        general_query("UPDATE Passengers SET room=? WHERE game=? AND id=?",
+                        (destination, session["game"], passenger))
+        flash("Move successful!", "success")
+
     return redirect(request.referrer)
 
 def access_room():

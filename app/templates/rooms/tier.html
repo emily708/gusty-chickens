@@ -80,7 +80,7 @@
                 Choose a room to move to:
               </div>
               <div class="col-12">
-                <select class="form-select" id="room">
+                <select class="form-select" name="room">
                   {% for room in ["A", "B", "C", "D", "E", "F", "G"] %}
                     {% if room == passenger["room"] %}
                     <option value="{{ room }}" selected disabled>{{ room }}</option>
