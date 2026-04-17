@@ -22,7 +22,7 @@ rooms = {
       "capacity": 400
     }
   },
-  "miscelaneous": {
-    
+  "miscellaneous": {
+
   }
 }

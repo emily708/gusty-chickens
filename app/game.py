@@ -58,7 +58,7 @@ def calculate_odds(passenger):
             continue
         percentages[key]["percentage"] = data[key][percentages[key]["value"]]["percentage"]
         total += percentages[key]["percentage"]
-    
+
     percentages["total"] = total / 6
     return percentages
 
@@ -78,7 +78,7 @@ def start_get():
     passengers = select_query("SELECT * FROM DefaultPassengers")
     for passenger in passengers:
         cabin = passenger["cabin"][0] if len(passenger["cabin"]) > 0 else ""
-        
+
         # Assign Random
         if cabin not in constants.rooms["tiers"].keys():
             if passenger["class"] == 1:
@@ -87,10 +87,10 @@ def start_get():
                 cabin = random.choice(["C", "D", "E"])
             else:
                 cabin = random.choice(["E", "F", "G"])
-        
+
         assignments.append((game["id"], passenger["id"], cabin))
         room_use[cabin] += 1
-    
+
     batch_query("INSERT INTO Passengers (game, id, room) VALUES (?, ?, ?)", assignments)
 
     data = []
@@ -179,5 +179,20 @@ def move_get():
 
     return redirect(request.referrer)
 
-def access_room():
-    return render_template(f"{place}.html")
+@bp.get('/testcap')
+def get_capacity():
+    # {room name: [curr cap, total cap]}
+    currCap = {}
+    passengers = select_query("SELECT room FROM Passengers WHERE game = ?", [session["game"]])
+    passList = [] # list of room values
+
+    for i in passengers:
+        passList.append(i['room'])
+
+    for room in constants.rooms["tiers"]:
+        # rooms are tiers i.e. A, B, ...
+        # val are the total capacities {"capacity": xx}
+        val = constants.rooms["tiers"][room]
+        count = passList.count(room)
+        currCap[room] = [count, val["capacity"]]
+    return currCap
