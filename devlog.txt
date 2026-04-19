@@ -73,3 +73,9 @@ JamesL -- 2026-04-16 20:50
 - added template for ending game
 - sped up database operations
 - allowed movement of passengers between rooms
+
+JamesL -- 2026-04-19 16:00
+- added navbar with info for game
+- added template for item use
+- added move consumption
+- updated flash, constants, and db

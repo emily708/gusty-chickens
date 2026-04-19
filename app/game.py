@@ -70,6 +70,13 @@ def start_get():
     })
     session["game"] = game["id"]
 
+    # Testing?
+    insert_query("Items", {
+        "name": "Growth Potion",
+        "game": session["game"],
+        "amount": 1,
+    })
+
     room_use = {}
     for room in constants.rooms["tiers"]:
         room_use[room] = 0
@@ -86,7 +93,7 @@ def start_get():
             elif passenger["class"] == 2:
                 cabin = random.choice(["C", "D", "E"])
             else:
-                cabin = random.choice(["E", "F", "G"])
+                cabin = random.choice(["F", "G"])
 
         assignments.append((game["id"], passenger["id"], cabin))
         room_use[cabin] += 1
@@ -126,7 +133,17 @@ def end_get():
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):
-    general_query("UPDATE Games SET currLocation=? WHERE id=?", (place, session["game"]))
+    game = select_query("SELECT * FROM Games WHERE id=?", (session["game"],))[0]
+    inventory = select_query("SELECT * FROM Items WHERE game=? AND amount>0", (session["game"],))
+
+    if place != game["currLocation"]:
+        if game["moves"] <= 1:
+            flash("You have ran out of moves! Ending game...", "info")
+            return redirect(url_for("end_get"))
+        else:
+            general_query("UPDATE Games SET currLocation=?, moves=moves-1 WHERE id=?", (place, session["game"]))
+            game["moves"] -= 1
+            flash("You have spent one move traveling!", "info")
 
     if place in ["A", "B", "C", "D", "E", "F", "G"]:
         room = select_query("SELECT * FROM Rooms WHERE game=? AND room=?", (session["game"], place))[0]
@@ -151,7 +168,17 @@ def rooms_get(place):
             passenger["labels"] = labels
             passenger["values"] = values
 
-        return render_template("rooms/tier.html", passengers=passengers, room=room)
+        return render_template("rooms/tier.html", passengers=passengers, room=room, game=game, inventory=inventory)
+
+
+@bp.post('/use-item')
+def use_get():
+    passenger = request.form.get("passengerId")
+    item_name = request.form.get("item")
+    general_query("UPDATE Items SET amount=amount-1 WHERE name=? AND game=?", (item_name, session["game"]))
+
+    flash("Item used!", "info")
+    return redirect(request.referrer)
 
 @bp.post('/move-person')
 def move_get():

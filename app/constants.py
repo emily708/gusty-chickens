@@ -1,16 +1,16 @@
 rooms = {
   "tiers": {
     "A": {
-      "capacity": 30
+      "capacity": 70
     },
     "B": {
-      "capacity": 100
+      "capacity": 120
     },
     "C": {
-      "capacity": 150
+      "capacity": 220
     },
     "D": {
-      "capacity": 50
+      "capacity": 150
     },
     "E": {
       "capacity": 300

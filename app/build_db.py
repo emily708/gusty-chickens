@@ -28,8 +28,7 @@ c.executescript("""
         charisma INTEGER DEFAULT 40,
         moves INTEGER DEFAULT 200,
         active INTEGER DEFAULT TRUE,
-        FOREIGN KEY (username) REFERENCES Users(username),
-        FOREIGN KEY (currLocation) REFERENCES DefaultRooms(id)
+        FOREIGN KEY (username) REFERENCES Users(username)
     );
 
     DROP TABLE IF EXISTS Passengers;
@@ -38,8 +37,7 @@ c.executescript("""
         id INTEGER,
         room TEXT,
         FOREIGN KEY (game) REFERENCES Games(id),
-        FOREIGN KEY (id) REFERENCES DefaultPassengers(id),
-        FOREIGN KEY (room) REFERENCES DefaultRooms(id)
+        FOREIGN KEY (id) REFERENCES DefaultPassengers(id)
     );
 
     DROP TABLE IF EXISTS Rooms;
@@ -47,14 +45,14 @@ c.executescript("""
         game INTEGER,
         usedCapacity INTEGER DEFAULT 0,
         room TEXT,
-        FOREIGN KEY (game) REFERENCES Games(id),
-        FOREIGN KEY (room) REFERENCES DefaultRooms(id)
+        FOREIGN KEY (game) REFERENCES Games(id)
     );
 
     DROP TABLE IF EXISTS Items;
     CREATE TABLE Items (
         name TEXT,
         game INTEGER,
+        amount INTEGER,
         FOREIGN KEY (game) REFERENCES Games(id)
     );
 

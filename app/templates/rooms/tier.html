@@ -5,17 +5,18 @@
    -->
 
 {% extends "room_template.html" %}
-{% block content %}
+{% block room %}
+Tier {{ room['room'] }} (Capacity {{ room["usedCapacity"] }} / {{ room["capacity"] }})
+{% endblock %}
+{% block inner %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<h1 class="text-center">Tier {{ room['room'] }} (Capacity {{ room["usedCapacity"] }} / {{ room["capacity"] }})</h1>
-
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <h2 class="text-center mb-3">Passengers</h2>
+      <h4 class="text-center mb-3">Passengers</h4>
       <div class="overflow-auto" style="max-height: 80vh;">
         <ul class="list-group">
           {% for passenger in passengers %}
@@ -30,7 +31,7 @@
       let ctx
     </script>
     <div class="col-md-6">
-      <h2 class="text-center mb-3">Statistics</h2>
+      <h4 class="text-center mb-3">Statistics</h4>
       {% for passenger in passengers %}
       <div id="info-{{ loop.index }}" style="display: none;">
         <div class="card">
@@ -74,10 +75,10 @@
             Actions
           </div>
           <div class="card-body">
-            <form class="row row-cols-lg-auto align-items-center" action="/game/move-person" method="post">
+            <form class="row row-cols-lg-auto align-items-center mb-3" action="/game/move-person" method="post">
               <input type="hidden" name="passengerId" value="{{ passenger['id'] }}">
               <div class="col-12">
-                Choose a room to move to:
+                Choose a room to move this passenger to:
               </div>
               <div class="col-12">
                 <select class="form-select" name="room">
@@ -94,6 +95,24 @@
                 <button type="submit" class="btn btn-primary">Move</button>
               </div>
             </form>
+            {% if inventory|length > 0 %}
+            <form class="row row-cols-lg-auto align-items-center" action="/game/use-item" method="post">
+              <input type="hidden" name="passengerId" value="{{ passenger['id'] }}">
+              <div class="col-12">
+                Use an item on this passenger:
+              </div>
+              <div class="col-12">
+                <select class="form-select" name="item">
+                  {% for item in inventory %}
+                  <option value="{{ item['name'] }}">{{ item["name"] }} ({{item["amount"]}})</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Use</button>
+              </div>
+            </form>
+            {% endif %}
           </div>
         </div>
       </div>
