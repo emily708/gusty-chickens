@@ -158,11 +158,11 @@ a:hover{
               if (letter < text.length) {
                   document.getElementById("first").innerHTML += text.charAt(letter);
                   letter++;
-                  let speed = 75;
+                  let speed = 25;
                   setTimeout(typeText, speed);
               }
           }
-          document.getElementById("play").onclick = function() {this.disabled = true; uh(); typeText(); setTimeout(show, 6000);};
+          document.getElementById("play").onclick = function() {this.disabled = true; uh(); typeText(); setTimeout(show, 2000);};
       });
     </script>
 {% endblock %}

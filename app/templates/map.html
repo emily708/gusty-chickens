@@ -5,15 +5,37 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 {% endblock %}
 {% block content %}
+<style>
+body{
+    background-image: url("/static/2class.jpg");
+    background-repeat: repeat;
+}
+</style>
 <br>
-<h2>Passenger Rooms</h2>
-<h3>Class</h3>
+<div style="z-index: 1000; text-align: center;">
+    <img src="/static/uhm.png" style="height: 60px; width: auto;">
+</div>
+<h1 style="text-align: center; color: white;">Map</h1>
+<div style="z-index: 1000; text-align: center;">
+    <img src="/static/uhm.png" style="height: 60px; width: auto;">
+</div>
+<br>
+<div style="
+        background-color: rgba(51, 33, 13, 0.3);
+        padding-top: 6.5vh;
+        padding-bottom: 8vh;
+        border-radius: 30px;
+        margin-top: 8vh;
+        margin-left: 3vw;
+        margin-right: 3vw;">
+<h2 style="text-align: center; color: white;">Passenger Rooms</h2>
+<br>
   {% for i in "ABCDEFG" %}
   <div class='row justify-content-center'>
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">{{ i }}</a>
+        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Tier {{ i }}</a>
       </div>
     </div>
     </div>
@@ -57,6 +79,7 @@
   <div class="col-auto">
     <button type="button" class="btn btn-primary py-2">Cargo</button>
   </div>
+</div>
 </div>
 {% endblock %}
 
