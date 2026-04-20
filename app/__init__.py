@@ -18,9 +18,9 @@ def check_authentification():
 
 @app.get("/")
 def home_get():
-    if 'game' in session:
-        return render_template('startscreen.html', link="url_for('game.start_get')")
-    return render_template('startscreen.html', link="url_for('auth.login_get')")
+    if 'username' in session:
+        return render_template('startscreen.html', link="/load")
+    return render_template('startscreen.html', link="/auth/login")
 
 @app.get("/load")
 def load_get():
@@ -28,9 +28,9 @@ def load_get():
 
 @app.get('/loadsave')
 def load_save():
-    temp = select_query("SELECT * FROM Games WHERE username=?", (session["username"],))
+    temp = select_query("SELECT * FROM Games WHERE username=? AND active=TRUE", (session["username"],))
     if len(temp) != 0:
-        session["game"] = temp[0]
+        session["game"] = temp[0]["id"]
         return redirect("/game/map")
     else:
         flash("You don't have a saved game!", "error")

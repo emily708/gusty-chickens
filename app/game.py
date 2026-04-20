@@ -129,6 +129,7 @@ def end_get():
     # Visualize passengers
 
     session.pop('game', None)
+    print(session)
     return render_template("result.html")
 
 @bp.get('/rooms/<place>')
@@ -210,7 +211,8 @@ def move_get():
 def get_capacity():
     # {room name: [curr cap, total cap]}
     currCap = {}
-    passengers = select_query("SELECT room FROM Passengers WHERE game = ?", [session["game"]])
+    print(session)
+    passengers = select_query("SELECT room FROM Passengers WHERE game = ?", (session["game"],))
     passList = [] # list of room values
 
     for i in passengers:
