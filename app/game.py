@@ -81,6 +81,8 @@ def start_get():
     for room in constants.rooms["tiers"]:
         room_use[room] = 0
 
+    room_use["Kitchen"] = 0
+
     assignments = []
     passengers = select_query("SELECT * FROM DefaultPassengers")
     for passenger in passengers:
@@ -129,7 +131,6 @@ def end_get():
     # Visualize passengers
 
     session.pop('game', None)
-    print(session)
     return render_template("result.html")
 
 @bp.get('/rooms/<place>')
@@ -171,6 +172,24 @@ def rooms_get(place):
 
         return render_template("rooms/tier.html", passengers=passengers, room=room, game=game, inventory=inventory)
 
+    elif place == "Kitchen":
+        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("Kitchen", sesison["game"]))
+        if kitchen["usedCapacity"] >= constants.rooms["miscellaneous"]["kitchen"]["limit"]:
+            flash("You have already used the kitchen 5 times this round!")
+            return redirect(request.referrer)
+
+        num = random.random()
+        if num < 0.5:
+            general_query("UPDATE Games SET moves=moves+5 WHERE id=?", (session["game"],))
+            flash("There was food! You have restored 5 moves!");
+        elif num < 0.9:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
+            flash("A chef gives you a specially prepared growth potion!")
+        else:
+            flash("The kitchen didn't have any food. You wasted your time!");
+
+        return redirect(request.referrer)
+
 
 @bp.post('/use-item')
 def use_get():
@@ -211,8 +230,7 @@ def move_get():
 def get_capacity():
     # {room name: [curr cap, total cap]}
     currCap = {}
-    print(session)
-    passengers = select_query("SELECT room FROM Passengers WHERE game = ?", (session["game"],))
+    passengers = select_query("SELECT room FROM Passengers WHERE game = ?", [session["game"]])
     passList = [] # list of room values
 
     for i in passengers:
