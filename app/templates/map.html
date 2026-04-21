@@ -48,7 +48,6 @@ a.btn-dark:link {
   color: white;
 }
 </style>
-<br>
 <div style="z-index: 1000; text-align: center;">
     <img src="/static/uhm.png" style="height: 60px; width: auto;">
 </div>
@@ -56,14 +55,7 @@ a.btn-dark:link {
 <div style="z-index: 1000; text-align: center;">
     <img src="/static/uhm.png" style="height: 60px; width: auto;">
 </div>
-<div style="
-        background-color: rgba(51, 33, 13, 0.3);
-        padding-top: 6.5vh;
-        padding-bottom: 8vh;
-        border-radius: 30px;
-        margin-top: 8vh;
-        margin-left: 3vw;
-        margin-right: 3vw;">
+<br>
 <h2 style="text-align: center; color: white;">Passenger Rooms</h2>
 <br>
   {% for i in "ABCDEFG" %}
@@ -71,7 +63,7 @@ a.btn-dark:link {
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Tier {{ i }}</a>
+        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Cabin {{ i }}</a>
       </div>
     </div>
     </div>
@@ -115,7 +107,6 @@ a.btn-dark:link {
   <div class="col-auto">
     <a href="{{ url_for('game.rooms_get', place='cargo') }}" type="button" class="btn btn-dark py-2">Cargo</a>
   </div>
-</div>
 </div>
 {% endblock %}
 
