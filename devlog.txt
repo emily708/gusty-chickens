@@ -79,3 +79,9 @@ JamesL -- 2026-04-19 16:00
 - added template for item use
 - added move consumption
 - updated flash, constants, and db
+
+AmyS -- 2026-04-20 23:43
+- added navbar to map
+- fixed link, moves, and capacity for kitchen
+- added links for other misc. rooms
+- css
