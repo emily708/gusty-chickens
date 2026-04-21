@@ -1,14 +1,48 @@
 {% extends "base.html" %}
 {% block title %}Map{% endblock %}
+
 {% block head %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand bg-dark mb-4" data-bs-theme="dark">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{{ url_for('game.map_get') }}">Curr Map | Moves: {{ game["moves"] }}</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link text-light">
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{{ url_for('game.end_get') }}">End Game</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{{ url_for('auth.logout_get') }}">Log Out</a>
+        </li>
+      </ul>
+    </nav>
 {% endblock %}
+
 {% block content %}
 <style>
 body{
     background-image: url("/static/2class.jpg");
     background-repeat: repeat;
+    color: white;
+}
+h2{
+  text-align: center;
+}
+a.btn:hover {
+  background-color: dimgrey;
+}
+.popover .popover-header {
+  background-color: dimgrey;
+  color: white;
 }
 </style>
 <br>
@@ -19,7 +53,6 @@ body{
 <div style="z-index: 1000; text-align: center;">
     <img src="/static/uhm.png" style="height: 60px; width: auto;">
 </div>
-<br>
 <div style="
         background-color: rgba(51, 33, 13, 0.3);
         padding-top: 6.5vh;
@@ -35,7 +68,7 @@ body{
   <div class="col-{{ loop.index }}">
       <div class="d-grid gap-2 mx-auto mb-3">
         <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Tier {{ i }}</a>
+        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Tier {{ i }}</a>
       </div>
     </div>
     </div>
@@ -44,40 +77,40 @@ body{
 <h2>Miscellaneous Rooms</h2>
 <div class='row justify-content-center g-3 p-4'>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 5">Kitchen</button>
+    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 5">Kitchen</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Library</button>
+    <button type="button" class="btn btn-dark py-2">Library</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Compass Platform</button>
+    <button type="button" class="btn btn-dark py-2">Compass Platform</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Gymnasium</button>
+    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Gymnasium</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Swimming Pool</button>
+    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Swimming Pool</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Squash Court</button>
+    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Squash Court</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Water Tank</button>
+    <button type="button" class="btn btn-dark py-2">Water Tank</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Boiler Room</button>
+    <button type="button" class="btn btn-dark py-2">Boiler Room</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Post Office</button>
+    <button type="button" class="btn btn-dark py-2">Post Office</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Crew Room</button>
+    <button type="button" class="btn btn-dark py-2">Crew Room</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Refrigerated Cargo</button>
+    <button type="button" class="btn btn-dark py-2">Refrigerated Cargo</button>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-primary py-2">Cargo</button>
+    <button type="button" class="btn btn-dark py-2">Cargo</button>
   </div>
 </div>
 </div>

@@ -111,9 +111,9 @@ def start_get():
 
 @bp.get('/map')
 def map_get():
-    game = session["game"]
+    game = select_query("SELECT * FROM Games WHERE id=?" , [session["game"]])[0]
     caps = get_capacity()
-    return render_template("map.html", caps=caps)
+    return render_template("map.html", caps=caps, game=game)
 
 @bp.get('/end')
 def end_get():
