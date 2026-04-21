@@ -81,7 +81,7 @@ def start_get():
     for room in constants.rooms["tiers"]:
         room_use[room] = 0
 
-    room_use["Kitchen"] = 0
+    room_use["kitchen"] = 0
 
     assignments = []
     passengers = select_query("SELECT * FROM DefaultPassengers")
@@ -107,13 +107,22 @@ def start_get():
         data.append((session["game"], room_use[room], room))
     batch_query("INSERT INTO Rooms (game, usedCapacity, room) VALUES (?, ?, ?)", data)
 
+    mis_room_data = []
+    for room in constants.rooms["miscellaneous"].keys():
+        mis_room_data.append((session["game"], 0, room))
+    batch_query("INSERT INTO Rooms (game, usedCapacity, room) VALUES (?, ?, ?)", mis_room_data)
+
     return redirect("/game/map")
 
 @bp.get('/map')
 def map_get():
     game = select_query("SELECT * FROM Games WHERE id=?" , [session["game"]])[0]
     caps = get_capacity()
-    return render_template("map.html", caps=caps, game=game)
+
+    kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
+
+    limits = {"kitchen": kitchen["usedCapacity"]}
+    return render_template("map.html", caps=caps, game=game, limits=limits)
 
 @bp.get('/end')
 def end_get():
@@ -172,11 +181,14 @@ def rooms_get(place):
 
         return render_template("rooms/tier.html", passengers=passengers, room=room, game=game, inventory=inventory)
 
-    elif place == "Kitchen":
-        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("Kitchen", sesison["game"]))
+    elif place == "kitchen":
+        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
         if kitchen["usedCapacity"] >= constants.rooms["miscellaneous"]["kitchen"]["limit"]:
             flash("You have already used the kitchen 5 times this round!")
             return redirect(request.referrer)
+
+        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", ("kitchen", session["game"]))
+        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
 
         num = random.random()
         if num < 0.5:
@@ -188,7 +200,9 @@ def rooms_get(place):
         else:
             flash("The kitchen didn't have any food. You wasted your time!");
 
-        return redirect(request.referrer)
+        return redirect(url_for("game.map_get"))
+    return redirect(url_for("game.map_get"))
+    #return redirect(request.referrer)
 
 
 @bp.post('/use-item')
