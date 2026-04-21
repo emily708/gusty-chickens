@@ -83,10 +83,10 @@ a {
     <a href="{{ url_for('game.rooms_get', place='kitchen') }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['kitchen'] }} / 5">Kitchen</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Library</button>
+    <a href="{{ url_for('game.rooms_get', place='compass_platform') }}" type="button" class="btn btn-dark py-2">Compass Platform</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Compass Platform</button>
+    <button type="button" class="btn btn-dark py-2">Library</button>
   </div>
   <div class="col-auto">
     <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Gymnasium</button>

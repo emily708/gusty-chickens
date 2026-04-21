@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, flash, redirect, session, Blu
 from db import *
 import random
 import json
-import random
 import constants
 
 with open('data.json', 'r') as file:
@@ -182,15 +181,15 @@ def rooms_get(place):
         return render_template("rooms/tier.html", passengers=passengers, room=room, game=game, inventory=inventory)
 
     elif place == "kitchen":
-        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
+        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
         if kitchen["usedCapacity"] >= constants.rooms["miscellaneous"]["kitchen"]["limit"]:
             flash("You have already used the kitchen 5 times this round!")
             return redirect(request.referrer)
 
         general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
-        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", ("kitchen", session["game"]))
+        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
 
-        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
+        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
 
         num = random.random()
         if num < 0.5:
@@ -202,7 +201,30 @@ def rooms_get(place):
         else:
             flash("The kitchen didn't have any food. You wasted your time!");
 
-        return redirect(url_for("game.map_get"))
+    elif place == "compass_platform":
+        compass_platform = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
+
+        num = random.random()
+        if num < 0.67: #67%
+            flash("Nothing happened :(");
+            return redirect(url_for("game.map_get"))
+        elif num < 0.82: #15%
+            general_query("UPDATE Games SET moves=moves-1 WHERE id=?", (session["game"],))
+            flash("Uh oh! Bad luck strikes and you lost 2 moves instead of one!")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.97: #15% --> NEEDS TO IMPLEMENT CHARISMAAA
+            flash("You gained some charisma! Perhaps that made you more charming...");
+            return redirect(url_for("game.map_get"))
+        elif num < 0.99: #2%
+            general_query("UPDATE Games SET active=FALSE WHERE id=?", (session["game"],))
+            flash("You rolled instant death? You sick, sick gambler.")
+            return redirect(url_for("game.end_get"))
+        else:
+            general_query("UPDATE Games SET active=FALSE, moves=9999 WHERE id=?", (session["game"],))
+            flash("YAYY YOU WINNN YOU LUCKY BASTARD!!!")
+            return redirect(url_for("game.end_get"))
+
     return redirect(url_for("game.map_get"))
     #return redirect(request.referrer)
 
