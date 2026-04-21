@@ -75,6 +75,11 @@ def start_get():
         "game": session["game"],
         "amount": 1,
     })
+    insert_query("Items", {
+        "name": "Youth Potion",
+        "game": session["game"],
+        "amount": 1,
+    })
 
     room_use = {}
     for room in constants.rooms["tiers"]:
@@ -260,7 +265,18 @@ def use_get():
     item_name = request.form.get("item")
     general_query("UPDATE Items SET amount=amount-1 WHERE name=? AND game=?", (item_name, session["game"]))
 
-    flash("Item used!", "info")
+    pass_dict = select_query("SELECT * FROM Passengers WHERE game=? AND id=?", (session["game"], passenger))[0]
+
+    if item_name == "Growth Potion":
+        general_query("UPDATE Passengers SET age=age+10 WHERE id=? AND game=?", (passenger, session["game"]))
+        flash("You used a growth potion to make this person 10 years older!", "info")
+    elif item_name == "Youth Potion":
+        if pass_dict["age"] <= 13:
+            flash("You wasted your youth potion on a child! Shameful.", "info")
+        else:
+            general_query("UPDATE Passengers SET age=age-10 WHERE id=? AND game=?", (passenger, session["game"]))
+            flash("You made this passenger 10 years younger! WOW", "info")
+
     return redirect(request.referrer)
 
 @bp.post('/move-person')
