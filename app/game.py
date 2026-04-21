@@ -187,7 +187,9 @@ def rooms_get(place):
             flash("You have already used the kitchen 5 times this round!")
             return redirect(request.referrer)
 
+        general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
         general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", ("kitchen", session["game"]))
+
         kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
 
         num = random.random()
@@ -257,3 +259,9 @@ def get_capacity():
         count = passList.count(room)
         currCap[room] = [count, val["capacity"]]
     return currCap
+
+@bp.get("/reset")
+def reset_game():
+    if "game" in session:
+        session.pop("game", None)
+    return redirect(url_for("game.start_get"))
