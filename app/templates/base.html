@@ -12,13 +12,15 @@
     {% endblock %}
 </head>
   <body>
+    <div class="flashes">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       {% for category, message in messages %}
-        <p class="flashes {{ category }}" onclick="this.style.display='none'">{{ message }}</p>
+        <p class="{{ category }}" onclick="this.style.display='none'">{{ message }}</p>
       {% endfor %}
       {% endif %}
     {% endwith %}
+    </div>
 
     {% block content %}
     {% endblock %}

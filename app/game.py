@@ -96,10 +96,10 @@ def start_get():
             else:
                 cabin = random.choice(["F", "G"])
 
-        assignments.append((game["id"], passenger["id"], cabin))
+        assignments.append((game["id"], passenger["id"], cabin, passenger["age"], passenger["class"]))
         room_use[cabin] += 1
 
-    batch_query("INSERT INTO Passengers (game, id, room) VALUES (?, ?, ?)", assignments)
+    batch_query("INSERT INTO Passengers (game, id, room, age, class) VALUES (?, ?, ?, ?, ?)", assignments)
 
     data = []
     for room in constants.rooms["tiers"].keys():
@@ -127,7 +127,7 @@ def map_get():
 def end_get():
     general_query("UPDATE Games SET active=FALSE WHERE id=?", [session["game"]])
 
-    passengers = select_query("SELECT Passengers.id, survived, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=?", [session["game"]])
+    passengers = select_query("SELECT Passengers.id, survived, Passengers.class, name, sex, Passengers.age, isAlone, cabin, port, room, DefaultPassengers.class AS original_class, DefaultPassengers.age AS original_age FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=?", [session["game"]])
 
     actual_survived = 0
     game_survived = 0
@@ -140,7 +140,27 @@ def end_get():
             passenger["outcome"] = "died"
         if passenger["survived"] == 1:
             actual_survived += 1
-    
+        age = passenger["original_age"]
+        if age <= 12:
+            age_group = "child"
+        elif age <= 19:
+            age_group = "teenager"
+        elif age <= 35:
+            age_group = "young adult"
+        elif age <= 64:
+            age_group = "adult"
+        else:
+            age_group = "senior"
+
+        passenger["odds"]["original_age"] = {}
+        passenger["odds"]["original_age"]["value"] = age_group
+        passenger["odds"]["original_age"]["percentage"] = data["age"][age_group]["percentage"]
+        passenger["odds"]["original_class"] = {}
+        passenger["odds"]["original_class"]["value"] = str(passenger["original_class"])
+        passenger["odds"]["original_class"]["percentage"] = data["class"][str(passenger["original_class"])]["percentage"]
+
+    print(passengers[0])
+
     total = len(passengers)
     final = {"actual_survival_rate": actual_survived / total, "game_survival_rate": game_survived / total}
     session.pop('game', None)
@@ -164,7 +184,7 @@ def rooms_get(place):
         room = select_query("SELECT * FROM Rooms WHERE game=? AND room=?", (session["game"], place))[0]
         room["capacity"] = constants.rooms["tiers"][place]["capacity"]
 
-        passengers = select_query("SELECT Passengers.id, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
+        passengers = select_query("SELECT Passengers.id, Passengers.class, name, sex, Passengers.age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=? AND room=?", [session["game"], place])
 
         for passenger in passengers:
             percentages = calculate_odds(passenger)
@@ -188,7 +208,7 @@ def rooms_get(place):
     elif place == "kitchen":
         kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
         if kitchen["usedCapacity"] >= constants.rooms["miscellaneous"]["kitchen"]["limit"]:
-            flash("You have already used the kitchen 5 times this round!")
+            flash("You have already used the kitchen 5 times this round!", "info")
             return redirect(request.referrer)
 
         general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
@@ -199,12 +219,12 @@ def rooms_get(place):
         num = random.random()
         if num < 0.5:
             general_query("UPDATE Games SET moves=moves+5 WHERE id=?", (session["game"],))
-            flash("There was food! You have restored 5 moves!");
+            flash("There was food! You have restored 5 moves!", "info");
         elif num < 0.9:
             general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
-            flash("A chef gives you a specially prepared growth potion!")
+            flash("A chef gives you a specially prepared growth potion!", "info")
         else:
-            flash("The kitchen didn't have any food. You wasted your time!");
+            flash("The kitchen didn't have any food. You wasted your time!", "info");
 
     elif place == "compass_platform":
         compass_platform = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
@@ -212,22 +232,22 @@ def rooms_get(place):
 
         num = random.random()
         if num < 0.67: #67%
-            flash("Nothing happened :(");
+            flash("Nothing happened :(", "info");
             return redirect(url_for("game.map_get"))
         elif num < 0.82: #15%
             general_query("UPDATE Games SET moves=moves-1 WHERE id=?", (session["game"],))
-            flash("Uh oh! Bad luck strikes and you lost 2 moves instead of one!")
+            flash("Uh oh! Bad luck strikes and you lost 2 moves instead of one!", "info")
             return redirect(url_for("game.map_get"))
         elif num < 0.97: #15% --> NEEDS TO IMPLEMENT CHARISMAAA
-            flash("You gained some charisma! Perhaps that made you more charming...");
+            flash("You gained some charisma! Perhaps that made you more charming...", "info")
             return redirect(url_for("game.map_get"))
         elif num < 0.99: #2%
             general_query("UPDATE Games SET active=FALSE WHERE id=?", (session["game"],))
-            flash("You rolled instant death? You sick, sick gambler.")
+            flash("You rolled instant death? You sick, sick gambler.", "info")
             return redirect(url_for("game.end_get"))
         else:
             general_query("UPDATE Games SET active=FALSE, moves=9999 WHERE id=?", (session["game"],))
-            flash("YAYY YOU WINNN YOU LUCKY BASTARD!!!")
+            flash("YAYY YOU WINNN YOU LUCKY BASTARD!!!", "info")
             return redirect(url_for("game.end_get"))
 
     return redirect(url_for("game.map_get"))

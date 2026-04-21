@@ -36,6 +36,8 @@ c.executescript("""
         game INTEGER,
         id INTEGER,
         room TEXT,
+        age INTEGER,
+        class INTEGER,
         FOREIGN KEY (game) REFERENCES Games(id),
         FOREIGN KEY (id) REFERENCES DefaultPassengers(id)
     );
