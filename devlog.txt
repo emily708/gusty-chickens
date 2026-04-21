@@ -88,3 +88,6 @@ amyS -- 2026-04-20 23:43
 
 emilyM -- 2026-4-21 06:00
 - added game result charts, more chart styling
+
+carrieK -- 2026-04-21 12:32
+- so basically all the css should supposedly be done yay
