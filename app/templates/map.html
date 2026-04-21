@@ -37,15 +37,15 @@ body{
 h2{
   text-align: center;
 }
-a.btn:hover {
+a.btn-dark:hover {
   background-color: dimgrey;
+}
+a.btn-dark:link {
+  color:white;
 }
 .popover .popover-header {
   background-color: dimgrey;
   color: white;
-}
-a {
-  color:white;
 }
 </style>
 <br>
@@ -86,34 +86,34 @@ a {
     <a href="{{ url_for('game.rooms_get', place='compass_platform') }}" type="button" class="btn btn-dark py-2">Compass Platform</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Library</button>
+    <a href="{{ url_for('game.rooms_get', place='library') }}" class="btn btn-dark py-2">Library</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Gymnasium</button>
+    <a href="{{ url_for('game.rooms_get', place='gymnasium') }}" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['gymnasium'] }} / 1">Gymnasium</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Swimming Pool</button>
+    <a href="{{ url_for('game.rooms_get', place='swimming_pool') }}" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['swimming_pool'] }} / 1">Swimming Pool</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="0 / 1">Squash Court</button>
+    <a href="{{ url_for('game.rooms_get', place='squash_court') }}" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['squash_court'] }} / 1">Squash Court</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Water Tank</button>
+    <a href="{{ url_for('game.rooms_get', place='water_tank') }}" class="btn btn-dark py-2">Water Tank</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Boiler Room</button>
+    <a href="{{ url_for('game.rooms_get', place='boiler_room') }}" class="btn btn-dark py-2">Boiler Room</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Post Office</button>
+    <a href="{{ url_for('game.rooms_get', place='compass_platform') }}" class="btn btn-dark py-2">Post Office</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Crew Room</button>
+    <a href="{{ url_for('game.rooms_get', place='crew_room') }}" class="btn btn-dark py-2">Crew Room</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Refrigerated Cargo</button>
+    <a href="{{ url_for('game.rooms_get', place='refrigerated_cargo') }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['refrigerated_cargo'] }} / 1">Refrigerated Cargo</a>
   </div>
   <div class="col-auto">
-    <button type="button" class="btn btn-dark py-2">Cargo</button>
+    <a href="{{ url_for('game.rooms_get', place='cargo') }}" type="button" class="btn btn-dark py-2">Cargo</a>
   </div>
 </div>
 </div>
