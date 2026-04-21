@@ -129,17 +129,22 @@ def end_get():
 
     passengers = select_query("SELECT Passengers.id, survived, class, name, sex, age, isAlone, cabin, port, room FROM Passengers INNER JOIN DefaultPassengers ON Passengers.id=DefaultPassengers.id WHERE game=?", [session["game"]])
 
+    actual_survived = 0
+    game_survived = 0
     for passenger in passengers:
         passenger["odds"] = calculate_odds(passenger)
         if random.random() < passenger["odds"]["total"]:
             passenger["outcome"] = "survived"
+            game_survived += 1
         else:
             passenger["outcome"] = "died"
-
-    # Visualize passengers
-
+        if passenger["survived"] == 1:
+            actual_survived += 1
+    
+    total = len(passengers)
+    final = {"actual_survival_rate": actual_survived / total, "game_survival_rate": game_survived / total}
     session.pop('game', None)
-    return render_template("result.html")
+    return render_template("result.html", final=final, passengers=passengers)
 
 @bp.get('/rooms/<place>')
 def rooms_get(place):

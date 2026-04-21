@@ -2,4 +2,88 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
+
+<h2>Game Results</h2>
+<h3>Overall Survival Comparison</h3>
+<canvas id="summaryChart"></canvas>
+
+<h3>Comparison by Passenger</h3>
+<select id="passengerSelect">
+    <option value="">Select Passenger</option>
+</select>
+<canvas id="passengerChart"></canvas>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const summaryData = {{ final | tojson }};
+    const passengers = {{ passengers | tojson }};
+
+    const ctx = document.getElementById('summaryChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Actual', 'Game'],
+            datasets: [{
+                label: 'Survival Rate',
+                data: [
+                    summaryData.actual_survival_rate,
+                    summaryData.game_survival_rate
+                ]
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1
+                }
+            }
+        }
+    });
+
+    const select = document.getElementById("passengerSelect");
+
+    passengers.forEach((p, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.text = p.name;
+        select.appendChild(option);
+    });
+
+    const ctx2 = document.getElementById('passengerChart').getContext('2d');
+    
+    let passengerChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Actual', 'Game'],
+            datasets: [{
+                label: 'Outcome',
+                data: [0, 0],
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                }
+            }
+        }
+    })
+
+    select.addEventListener("change", function() {
+        const p = passengers[this.value];
+        if (!p) return;
+
+        const real = p.survived === 1 ? 1 : 0;
+        const game = p.outcome === "survived" ? 1 : 0;
+
+        passengerChart.data.datasets[0].data = [real, game];
+        passengerChart.update();
+    });
+
+</script>
+
 {% endblock %}
