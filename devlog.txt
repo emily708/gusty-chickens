@@ -1,7 +1,7 @@
-AmyS -- 2026-03-25 19:41
+amyS -- 2026-03-25 19:41
 - Add design document
 
-AmyS -- 2026-03-26 15:37
+amyS -- 2026-03-26 15:37
 - Update design document
 
 INITIAL DD REVIEW:
@@ -12,54 +12,51 @@ INITIAL DD REVIEW:
 DESIGN REVISIONS THUS FAR:
 Added in extra mechanics for specific rooms.
 
-CarrieK -- 2026-03-30 11:00
+carrieK -- 2026-03-30 11:00
 - template work yum
 
-CarrieK -- 2026-03-30 20:05
+carrieK -- 2026-03-30 20:05
 - did the login and register html, temp code in flask?? check if it works i commented it out entirely
 
-JamesL -- 2026-03-30 20:30
+jamesL -- 2026-03-30 20:30
 - ported over database code
 - finished build_db and worked on parsing csv
 
-EmilyM -- 2026-04-01 04:49
+emilyM -- 2026-04-01 04:49
 - edited code formatting and added requirements.txt
 
-JamesL -- 2026-04-01 10:30
+jamesL -- 2026-04-01 10:30
 - parsed cabin, name, and port
 
-CarrieK -- 2026-04-01 11:00
+carrieK -- 2026-04-01 11:00
 - css
 
-JamesL -- 2026-04-13 21:00
+jamesL -- 2026-04-13 21:00
 - calculated survival chances for rest of stats
 
-CarrieK -- 2026-04-13 22:34
+carrieK -- 2026-04-13 22:34
 - css
 
-AmyS -- 2026-04-13 22:58
+amyS -- 2026-04-13 22:58
 - added host server wsgi.py
 - created pyramid map and popover of carrying capacity
 
-CarrieK -- 2026-04-14 22:49
+carrieK -- 2026-04-14 22:49
 - load js css
 
-EmilyM -- 2026-04-15 09:10
+emilyM -- 2026-04-15 09:10
 - added example chart using chart.js
 - updated install guide
 
-JamesL -- 2026-04-15 21:10
+jamesL -- 2026-04-15 21:10
 - added tier rooms
 - added css for flash fucntionality
 
-CarrieK -- 2026-04-15 21:31
+carrieK -- 2026-04-15 21:31
 - lore done
 
-EmilyM -- 2026-04-16 01:50
+emilyM -- 2026-04-16 01:50
 - added survival rate charts by passenger id
-
-AmyS -- 2026-04-17 23:59
-- added curr capacities out of total cap to rooms
 
 HOME STRETCH CHECKLIST:
 ------------------------------------
@@ -69,19 +66,25 @@ HOME STRETCH CHECKLIST:
 * implement mechanics of the miscellaneous rooms on the ship :: Amy Shrestha
 ====================================
 
-JamesL -- 2026-04-16 20:50
+jamesL -- 2026-04-16 20:50
 - added template for ending game
 - sped up database operations
 - allowed movement of passengers between rooms
 
-JamesL -- 2026-04-19 16:00
+amyS -- 2026-04-17 23:59
+- added curr capacities out of total cap to rooms
+
+jamesL -- 2026-04-19 16:00
 - added navbar with info for game
 - added template for item use
 - added move consumption
 - updated flash, constants, and db
 
-AmyS -- 2026-04-20 23:43
+amyS -- 2026-04-20 23:43
 - added navbar to map
 - fixed link, moves, and capacity for kitchen
 - added links for other misc. rooms
 - css
+
+emilyM -- 2026-4-21 06:00
+- added game result charts, more chart styling
