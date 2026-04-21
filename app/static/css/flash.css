@@ -1,5 +1,4 @@
 .flashes {
-  padding: 10px;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -8,12 +7,17 @@
   z-index: 1000000;
 }
 
+.flashes p {
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .error {
   background-color: #ce1b1b;
 }
 
 .info {
-  background-color: #54b25f;
+  background-color: #1e90ff;
 }
 
 .success {
