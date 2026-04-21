@@ -64,10 +64,6 @@ python3 __init__.py
 ```
 http://167.172.24.134
 ```
-3) Log in and run this link:
-```
-http://167.172.24.134/game/start
-```
 3) After running the launch codes and utilizing the app, exit the virtual environment:
 ```
 deactivate
