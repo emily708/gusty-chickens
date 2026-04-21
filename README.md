@@ -26,18 +26,18 @@ python3 -m venv venv
 ```
 4) Activate virtual env for Linux, Windows, or Mac:
 
-i. Linux
-```
-. venv/bin/activate
-```
-ii. Windows
-```
-venv\Scripts\activate
-```
-iii. Mac
-```
-source venv/bin/activate
-```
+  a. Linux
+  ```
+  . venv/bin/activate
+  ```
+  b. Windows
+  ```
+  venv\Scripts\activate
+  ```
+  c. Mac
+  ```
+  source venv/bin/activate
+  ```
 5) Install necessary modules:
 ```
 pip install -r requirements.txt
