@@ -53,11 +53,17 @@ Tier {{ room['room'] }} (Capacity {{ room["usedCapacity"] }} / {{ room["capacity
                       datasets: [{
                           label: 'percentage',
                           data: chartValues,
+                          backgroundColor: chartValues.map(v => v >= 0 ? '#4CAF50' : '#FF5252'),
                       }]
                   },
                   options: {
                       indexAxis: 'y',
-                      backgroundColor: chartValues.map(v => v >= 0 ? '#4CAF50' : '#FF5252'),
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: '{{ passenger["name"] }}'
+                        },
+                      },
                       scales: {
                           x: {
                               beginAtZero: true,
