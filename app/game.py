@@ -213,8 +213,6 @@ def end_get():
         passenger["odds"]["original_class"]["value"] = str(passenger["original_class"])
         passenger["odds"]["original_class"]["percentage"] = data["class"][str(passenger["original_class"])]["percentage"]
 
-    #print(passengers[0])
-
     total = len(passengers)
     final = {"actual_survival_rate": actual_survived / total, "game_survival_rate": game_survived / total}
     session.pop('game', None)
