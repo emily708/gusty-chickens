@@ -80,6 +80,18 @@ def start_get():
         "game": session["game"],
         "amount": 1,
     })
+    insert_query("Items",
+    {
+        "name": "First Class Ticket",
+        "game": session["game"],
+        "amount": 0,
+    },)
+    insert_query("Items",
+    {
+        "name": "Hammer",
+        "game": session["game"],
+        "amount": 0,
+    },)
 
     room_use = {}
     for room in constants.rooms["tiers"]:
@@ -124,8 +136,12 @@ def map_get():
     caps = get_capacity()
 
     kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
+    refrigerated_cargo = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("refrigerated_cargo", session["game"]))[0]
 
-    limits = {"kitchen": kitchen["usedCapacity"]}
+    limits = {
+        "kitchen": kitchen["usedCapacity"],
+        "refrigerated_cargo": refrigerated_cargo["usedCapacity"]
+    }
     return render_template("map.html", caps=caps, game=game, limits=limits)
 
 @bp.get('/end')
@@ -164,7 +180,7 @@ def end_get():
         passenger["odds"]["original_class"]["value"] = str(passenger["original_class"])
         passenger["odds"]["original_class"]["percentage"] = data["class"][str(passenger["original_class"])]["percentage"]
 
-    print(passengers[0])
+    #print(passengers[0])
 
     total = len(passengers)
     final = {"actual_survival_rate": actual_survived / total, "game_survival_rate": game_survived / total}
@@ -179,10 +195,10 @@ def rooms_get(place):
     if place != game["currLocation"]:
         if game["moves"] <= 1:
             flash("You have ran out of moves! Ending game...", "info")
-            return redirect(url_for("end_get"))
+            return redirect(url_for("game.end_get"))
         else:
-            general_query("UPDATE Games SET currLocation=?, moves=moves-1 WHERE id=?", (place, session["game"]))
-            game["moves"] -= 1
+            general_query("UPDATE Games SET currLocation=? WHERE id=?", (place, session["game"]))
+            use_move()
             flash("You have spent one move traveling!", "info")
 
     if place in ["A", "B", "C", "D", "E", "F", "G"]:
@@ -212,11 +228,11 @@ def rooms_get(place):
 
     elif place == "kitchen":
         kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
-        if kitchen["usedCapacity"] >= constants.rooms["miscellaneous"]["kitchen"]["limit"]:
+        if (constants.rooms["miscellaneous"][place]["limit"] != 0) and (kitchen["usedCapacity"] >= constants.rooms["miscellaneous"][place]["limit"]):
             flash("You have already used the kitchen 5 times this round!", "info")
             return redirect(request.referrer)
 
-        general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
+        use_move()
         general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
 
         kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
@@ -232,8 +248,7 @@ def rooms_get(place):
             flash("The kitchen didn't have any food. You wasted your time!", "info");
 
     elif place == "compass_platform":
-        compass_platform = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
-        general_query("UPDATE Games SET moves = moves - 1 WHERE id=?", (session["game"],))
+        use_move()
 
         num = random.random()
         if num < 0.67: #67%
@@ -241,11 +256,16 @@ def rooms_get(place):
             return redirect(url_for("game.map_get"))
         elif num < 0.82: #15%
             general_query("UPDATE Games SET moves=moves-1 WHERE id=?", (session["game"],))
-            flash("Uh oh! Bad luck strikes and you lost 2 moves instead of one!", "info")
+            flash("Uh oh! Bad luck strikes and you lost an additional move!", "info")
             return redirect(url_for("game.map_get"))
-        elif num < 0.97: #15% --> NEEDS TO IMPLEMENT CHARISMAAA
+        elif num < 0.92: #10%
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Youth Potion", session["game"]))
+            flash("A death knell rings. You magically recieve a Youth potion.", "info")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.97: #5%
             flash("You gained some charisma! Perhaps that made you more charming...", "info")
-            return redirect(url_for("game.map_get"))
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("First Class Ticket", session["game"]))
+            flash("You won a first class ticket! Now you can send someone to tier A for free.", "info")
         elif num < 0.99: #2%
             general_query("UPDATE Games SET active=FALSE WHERE id=?", (session["game"],))
             flash("You rolled instant death? You sick, sick gambler.", "info")
@@ -254,6 +274,49 @@ def rooms_get(place):
             general_query("UPDATE Games SET active=FALSE, moves=9999 WHERE id=?", (session["game"],))
             flash("YAYY YOU WINNN YOU LUCKY BASTARD!!!", "info")
             return redirect(url_for("game.end_get"))
+
+    elif place == "refrigerated_cargo":
+        this_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        if (constants.rooms["miscellaneous"][place]["limit"] != 0) and (this_room["usedCapacity"] >= constants.rooms["miscellaneous"][place]["limit"]):
+            flash("You have already refilled the kitchen once this round!", "info")
+            return redirect(request.referrer)
+
+        use_move()
+        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
+        # NEED TO UPDATE CAP FOR KITCHEN
+        general_query("UPDATE Rooms SET usedCapacity = 0 WHERE room=? AND game=?", ("kitchen", session["game"],))
+
+    elif place == "water_tank" or place == "boiler_room":
+        this_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        if (constants.rooms["miscellaneous"][place]["limit"] != 0) and (this_room["usedCapacity"] >= constants.rooms["miscellaneous"][place]["limit"]):
+            flash("You cannot go in to these rooms anymore!", "info")
+            return redirect(request.referrer)
+
+        use_move()
+        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
+
+        num = random.random()
+        if num < 0.30: #30%
+            # ONLY ONE PERMANENT HAMMER ALLOWED
+            get_num = select_query("SELECT amount FROM Items WHERE name=? and game=?", ("Hammer", session["game"]))[0]["amount"]
+            if get_num < 1:
+                general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Hammer", session["game"]))
+                flash("You obtained a permanent hammer! Now you can break into rooms without costing a move :D", "info")
+            else:
+                flash("You already have a hammer...", "info")
+            return redirect(url_for("game.map_get"))
+        else: #70%
+            flash("You wandered around and... found nothing.", "info")
+            return redirect(url_for("game.map_get"))
+
+    elif place in ["gymnasium", "swimming_pool", "squash_court"]:
+        this_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        if (constants.rooms["miscellaneous"][place]["limit"] != 0) and (this_room["usedCapacity"] >= constants.rooms["miscellaneous"][place]["limit"]):
+            flash("You over-excercised!", "info")
+            return redirect(request.referrer)
+
+        use_move()
+        general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
 
     return redirect(url_for("game.map_get"))
     #return redirect(request.referrer)
@@ -295,7 +358,7 @@ def move_get():
     if destination_room["usedCapacity"] >= constants.rooms["tiers"][destination]["capacity"]:
         flash("Destination room is at capacity! No action performed", "error")
     else:
-        general_query("UPDATE Games SET moves=moves-1 WHERE id=?", (session["game"],))
+        use_move()
         general_query("UPDATE Rooms SET usedCapacity=usedCapacity-1 WHERE game=? AND room=?",
                         (session["game"], game["currLocation"]))
         general_query("UPDATE Rooms SET usedCapacity=usedCapacity+1 WHERE game=? AND room=?",
@@ -322,6 +385,27 @@ def get_capacity():
         count = passList.count(room)
         currCap[room] = [count, val["capacity"]]
     return currCap
+
+# check if need to spend a move
+def use_move():
+    # check moves is not negative
+    current = select_query("SELECT moves FROM Games WHERE id=?", (session["game"],))[0]
+    if current["moves"] <= 0:
+        flash("Out of moves!", "info")
+        general_query("UPDATE Games SET moves=0 WHERE id=?", (session["game"],))
+        return False
+
+    if not has_hammer():
+        # consume a move
+        general_query("UPDATE Games SET moves = moves - 1 WHERE id = ?", (session["game"],))
+
+def has_hammer():
+    a = select_query("SELECT amount FROM Items WHERE name=? AND game=?", ("Hammer", session["game"]) )[0]["amount"]
+    return a > 0
+
+def check_move_used(place):
+    if place in constants.rooms["miscellaneous"]:
+        use_move()
 
 @bp.get("/reset")
 def reset_game():

@@ -34,7 +34,7 @@ rooms = {
           "limit": 0
       },
       "refrigerated_cargo": {
-          "limit": 0
+          "limit": 1
       },
       "first_class": {
           "limit": 0
