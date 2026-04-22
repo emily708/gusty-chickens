@@ -26,6 +26,8 @@ __Item Descriptions:__
 
 ### KNOWN BUGS/ISSUES
 * Using the hammer on a passenger makes it disappear.
+* Load save doesn't allow you to manually choose which previous game you played.
+* When skipping (clicking) through the lore page, the text gets scrambled.
 
 ## Install Guide
 1) Clone the repo into a local directory:
@@ -78,7 +80,7 @@ python3 __init__.py
 ```
 2) Open the link:
 ```
-http://167.172.24.134
+http://127.0.0.1:3000
 ```
 3) After running the launch codes and utilizing the app, exit the virtual environment:
 ```
