@@ -28,7 +28,7 @@ rooms = {
       },
       # limit zero means no limit
       "library": {
-          "limit": 0
+          "limit": 10
       },
       "compass_platform": {
           "limit": 0

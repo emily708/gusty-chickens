@@ -47,6 +47,13 @@ a.btn-dark:link {
   background-color: dimgrey;
   color: white;
 }
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.col-auto {
+  margin-bottom: 1vh;
+}
 </style>
 <div style="z-index: 1000; text-align: center;">
     <img src="/static/uhm.png" style="height: 60px; width: auto;">
@@ -58,19 +65,19 @@ a.btn-dark:link {
 <br>
 <h2 style="text-align: center; color: white;">Passenger Rooms</h2>
 <br>
-  {% for i in "ABCDEFG" %}
-  <div class='row justify-content-center'>
-  <div class="col-{{ loop.index }}">
-      <div class="d-grid gap-2 mx-auto mb-3">
-        <!-- {{ currCapacity }} / {{ totalCapacity }} -->
-        <a href="/game/rooms/{{ i }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Cabin {{ i }}</a>
-      </div>
-    </div>
-    </div>
-    {% endfor %}
+{% for i in "ABCDEFG" %}
+<div class='row justify-content-center'>
+<div class="col-{{ loop.index }}">
+  <div class="d-grid gap-2 mx-auto mb-3">
+    <!-- {{ currCapacity }} / {{ totalCapacity }} -->
+    <a href="/game/rooms/{{ i }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="right" data-bs-trigger="hover focus" data-bs-title="Current Capacity" data-bs-content="{{ caps[i][0] }} / {{ caps[i][1] }}">Cabin {{ i }}</a>
+  </div>
+</div>
+</div>
+{% endfor %}
 <br>
 <h2>Miscellaneous Rooms</h2>
-<div class='row justify-content-center g-3 p-4'>
+<div class='row justify-content-center pb-4'>
   <div class="col-auto">
     <a href="{{ url_for('game.rooms_get', place='kitchen') }}" type="button" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['kitchen'] }} / 5">Kitchen</a>
   </div>
@@ -78,9 +85,9 @@ a.btn-dark:link {
     <a href="{{ url_for('game.rooms_get', place='compass_platform') }}" type="button" class="btn btn-dark py-2">Compass Platform</a>
   </div>
   <div class="col-auto">
-    <a href="{{ url_for('game.rooms_get', place='library') }}" class="btn btn-dark py-2">Library</a>
+    <a href="{{ url_for('game.rooms_get', place='library') }}" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['library'] }} / 10">Library</a>
   </div>
-  <div class="col-auto">
+    <div class="col-auto">
     <a href="{{ url_for('game.rooms_get', place='gymnasium') }}" class="btn btn-dark py-2" data-bs-toggle="popover" role="button" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-title="Entry Limit" data-bs-content="{{ limits['gymnasium'] }} / 1">Gymnasium</a>
   </div>
   <div class="col-auto">

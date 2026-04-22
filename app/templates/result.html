@@ -2,6 +2,9 @@
 {% block title %}Result{% endblock %}
 
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
 <style>
 body{
     text-align: center;
@@ -13,21 +16,65 @@ body{
        background-size: cover;
     	 background-attachment: fixed;
      }
+select {
+    color: white;
+    background-color: grey !important;  
+}
+.card {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
+.card * {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
 </style>
-<h2 style="font-size: 200%; margin-top: 0; padding-top: 40px;">Game Results</h2>
-<br>
-<div>
-<div style="display: inline-block; height: 70vh; width: 40vw; margin-right: 160px;">
-<h3>Overall Survival Comparison</h3>
-<canvas id="summaryChart"></canvas>
-</div>
-<div style="display: inline-block; height: 70vh; width: 40vw;">
-<h3>Comparison by Passenger</h3>
-<select id="passengerSelect">
-    <option value="">Select Passenger</option>
-</select>
-<canvas id="passengerChart"></canvas>
-</div>
+<nav class="navbar navbar-expand bg-dark mb-4" data-bs-theme="dark">
+  <ul class="navbar-nav me-auto">
+    <li class="nav-item">
+      <a class="nav-link text-light" href="{{ url_for('load_get') }}">New Game</a>
+    </li>
+  </ul>
+  <ul class="navbar-nav ms-auto">
+    <li class="nav-item">
+      <a class="nav-link text-light" href="{{ url_for('auth.logout_get') }}">Log Out</a>
+    </li>
+  </ul>
+</nav>
+<h2 style="font-size: 200%; margin-top: 0; padding-top: 40px; color:white">Game Results</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Comparison by Passenger
+            </div>
+            <div class="card-body">
+                <select id="passengerSelect" class="form-select">
+                    {% for passenger in passengers %}
+                    <option value="{{ loop.index }}">{{ passenger["name"] }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <div>
+                    <canvas id="passengerChart" style="height: 50vh;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Overall Survival Comparison
+            </div>
+            <div class="card-body">
+                <canvas id="summaryChart" style="height: 50vh;"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -36,6 +83,7 @@ body{
     Chart.defaults.color = '#fff';
     Chart.defaults.borderColor = '#fff';
     const ctx = document.getElementById('summaryChart').getContext('2d');
+
 
     new Chart(ctx, {
         type: 'bar',
@@ -62,27 +110,36 @@ body{
     });
 
     const select = document.getElementById("passengerSelect");
-
-    passengers.forEach((p, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.text = p.name;
-        select.appendChild(option);
-    });
-
     const ctx2 = document.getElementById('passengerChart').getContext('2d');
+    
+    console.log(Object.keys(passengers[0]["odds"]));
+
+    function convert(passenger) {
+        odds = passenger["odds"]
+        data = [];
+        for (const [key, val] of Object.entries(odds)) {
+            data.push(val['percentage']);
+        }
+        data[8] = (odds["total"])
+        data.push(passenger["survived"]);
+        return data;
+    }
+
+    keys = Object.keys(passengers[0]["odds"]);
+    keys.push("survived");
     
     let passengerChart = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: ['Actual', 'Game'],
+            labels: keys,
             datasets: [{
-                label: 'Outcome',
-                data: [0, 0],
+                label: 'percentages',
+                data: convert(passengers[0]),
                 backgroundColor: '#ffffff',
             }]
         },
         options: {
+            responsive: true,
             maintainAspectRatio: false,
             scales: {
                 y: {
@@ -94,13 +151,8 @@ body{
     })
 
     select.addEventListener("change", function() {
-        const p = passengers[this.value];
-        if (!p) return;
-
-        const real = p.survived === 1 ? 1 : 0;
-        const game = p.outcome === "survived" ? 1 : 0;
-
-        passengerChart.data.datasets[0].data = [real, game];
+        passengerChart.data.datasets[0].data = convert(passengers[this.value]),
+        console.log(passengerChart.data.datasets[0].data);
         passengerChart.update();
     });
 

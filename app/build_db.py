@@ -26,7 +26,7 @@ c.executescript("""
         username TEXT,
         currLocation TEXT,
         charisma INTEGER DEFAULT 40,
-        moves INTEGER DEFAULT 200,
+        moves INTEGER DEFAULT 100,
         active INTEGER DEFAULT TRUE,
         FOREIGN KEY (username) REFERENCES Users(username)
     );

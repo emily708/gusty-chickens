@@ -110,6 +110,24 @@ def start_get():
         "game": session["game"],
         "amount": 0,
     },)
+    insert_query("Items",
+    {
+        "name": "Debt Papers",
+        "game": session["game"],
+        "amount": 0,
+    },)
+    insert_query("Items",
+    {
+        "name": "$1000000 Check",
+        "game": session["game"],
+        "amount": 0,
+    },)
+    insert_query("Items",
+    {
+        "name": "$1000 Check",
+        "game": session["game"],
+        "amount": 0,
+    },)
 
     room_use = {}
     for room in constants.rooms["tiers"]:
@@ -154,9 +172,9 @@ def map_get():
     caps = get_capacity()
     limits = {}
 
-    for room in ["kitchen", "refrigerated_cargo", "gymnasium", "swimming_pool", "squash_court"]:
+    for room in ["kitchen", "refrigerated_cargo", "gymnasium", "swimming_pool", "squash_court", "library"]:
         limits[room] = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (room, session["game"]))[0]["usedCapacity"]
-
+    
     return render_template("map.html", caps=caps, game=game, limits=limits)
 
 @bp.get('/end')
@@ -247,15 +265,14 @@ def rooms_get(place):
             flash("You have already used the kitchen 5 times this round!", "info")
             return redirect(request.referrer)
 
-        use_move()
         general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
-
-        kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
-
         num = random.random()
         if num < 0.5:
             general_query("UPDATE Games SET moves=moves+5 WHERE id=?", (session["game"],))
-            flash("There was food! You have restored 5 moves!", "info");
+            flash("There was food! You have restored 5 moves!", "info")
+        elif num < 0.7:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Youth Potion", session["game"]))
+            flash("A chef gives you a specially prepared youth potion!", "info")
         elif num < 0.9:
             general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
             flash("A chef gives you a specially prepared growth potion!", "info")
@@ -263,7 +280,8 @@ def rooms_get(place):
             flash("The kitchen didn't have any food. You wasted your time!", "info");
 
     elif place == "compass_platform":
-        use_move()
+        compass_platform = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        general_query("UPDATE Games SET moves = moves-1 WHERE id=?", (session["game"],))
 
         num = random.random()
         if num < 0.67: #67%
@@ -343,30 +361,6 @@ def rooms_get(place):
             flash("A mysterious elder in a cloak hands you a youth potion.", "info");
             return redirect(url_for("game.map_get"))
 
-    elif place == "library":
-        use_move()
-
-        num = random.random()
-        if num < 0.60: #60%
-            flash("Too bad, too sad, nothing happened.", "info");
-            return redirect(url_for("game.map_get"))
-        elif num < 0.85: #25%
-            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Fourth Class Ticket", session["game"]))
-            flash("You found an N item at first glance: Fourth Class Ticket!", "info")
-            return redirect(url_for("game.map_get"))
-        elif num < 0.95: #10%
-            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Third Class Ticket", session["game"]))
-            flash("You found an R item while flipping through the books: Third Class Ticket!", "info")
-            return redirect(url_for("game.map_get"))
-        elif num < 0.995: #4.5%
-            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Second Class Ticket", session["game"]))
-            flash("You read dozens of books, and find an SR item: Second Class Ticket!", "info")
-            return redirect(url_for("game.map_get"))
-        else: #0.5%
-            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("First Class Ticket", session["game"]))
-            flash("Wowie, you absolute reading fanatic! You found an SSR item: First Class Ticket!", "info")
-            return redirect(url_for("game.end_get"))
-
     elif place == "crew_room" or place == "post_office":
         use_move()
 
@@ -389,6 +383,26 @@ def rooms_get(place):
     elif place == "cargo":
         use_move()
         flash("You look through the shelves and find ABSOLUTELY NOTHING :)", "info")
+    
+    elif place == "library":
+        library = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
+        if library["usedCapacity"] >= constants.rooms["miscellaneous"]["library"]["limit"]:
+            flash("You have already used the library 10 times this round!", "info")
+            return redirect(request.referrer)
+        general_query("UPDATE Rooms SET usedCapacity=usedCapacity+1 WHERE room=? AND game=?", (place, session["game"]))
+        
+        num = random.random()
+        if num < 0.33:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("$1000000 Check", session["game"]))
+            flash("You managed to forge a $1000000 Check. Give it you someone else you selfish prat.", "info")
+        elif num <= 0.67:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("$1000 Check", session["game"]))
+            flash("Your forging skills are adequate. Here's a $1000 check.", "info")
+        elif num <= 0.99:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Debt Papers", session["game"]))
+            flash("You created debt papers. Why?", "info")
+        else:
+            general_query("You fail miserably. We're disappointed.", "info")
 
     return redirect(url_for("game.map_get"))
 
@@ -411,6 +425,16 @@ def use_get():
         else:
             general_query("UPDATE Passengers SET age=age-10 WHERE id=? AND game=?", (passenger, session["game"]))
             flash("You made this passenger 10 years younger! WOW", "info")
+    
+    elif item_name == "$1000000 Check":
+        flash("You made this person rich! They're 1st class now.", "info")
+        general_query("UPDATE Passengers SET class=1 WHERE id=? AND game=?", (passenger, session["game"]))
+    elif item_name == "$1000 Check":
+        flash("This person is middle class now. How boring.", "info")
+        general_query("UPDATE Passengers SET class=2 WHERE id=? AND game=?", (passenger, session["game"]))
+    elif item_name == "Debt Papers":
+        flash("You stole so much money from this person. How could you?", "info")
+        general_query("UPDATE Passengers SET class=3 WHERE id=? AND game=?", (passenger, session["game"]))
 
     elif item_name == "First Class Ticket":
         tier = 'A'
