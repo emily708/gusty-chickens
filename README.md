@@ -2,9 +2,9 @@
 
 ## Roster
 Emily Mai - Project Manager (PM)  
-Amy Shrestha - Devo
-Carrie Ko - Devo
-James Lei - Devo
+Amy Shrestha - Devo  
+Carrie Ko - Devo  
+James Lei - Devo  
 
 ## Description  
 Let's Titanic! is a simulation game where your main goal is to save as many Titanic passengers as possible as the captain of the ship. The game limits your actions on the ship to 100 moves, including moving passengers around the ship and inspecting their survival rates, forcing you to take risks and prioritize certain actions. Nothing is free (unless you get a hammer). You can load and save your progress, or start a new game as many times as you like. Once you are out of moves, you will be given your survival rate and related metrics.
