@@ -62,7 +62,7 @@ HOME STRETCH CHECKLIST:
 ------------------------------------
 * work on moving passengers across different rooms and how that affects their survival rate :: James Lei
 * continue making methods to generate charts using data from the database :: Emily Mai
-* finish game visuals, storyline, and css styling:: Carrie Ko
+* finish game visuals, storyline, and css styling :: Carrie Ko
 * implement mechanics of the miscellaneous rooms on the ship :: Amy Shrestha
 ====================================
 
@@ -95,12 +95,12 @@ carrieK -- 2026-04-21 12:32
 amyS -- 2026-04-21 21:30
 - added stuff to misc. rooms
 
-jamesL -- 2026-04-20 22:00
+jamesL -- 2026-04-21 22:00
 - updated end game screen and passenger data
 
 NOTABLE DESIGN REVISIONS:
 ------------------------------------
-====================================
 - removed extra mechanics & extraenous datasets
 - finalized misc. rooms functions and added all items and functionalities
 - updated databases and how we visualized data using chart.js
+====================================

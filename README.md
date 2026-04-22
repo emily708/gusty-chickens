@@ -1,13 +1,13 @@
 # Let's Titanic! by Gusty Chickens
 
 ## Roster
-PM Emily Mai  
-Devo Amy Shrestha  
-Devo Carrie Ko  
-Devo James Lei  
+Emily Mai - Project Manager (PM)  
+Amy Shrestha - Devo
+Carrie Ko - Devo
+James Lei - Devo
 
 ## Description  
-This game is a Titanic simulation game where your main goal is to save as many Titanic passengers as possible as the captain of the Titanic. The game limits your actions on the ship to 100 moves, which includes moving passengers around the ship, inspecting the passengers’ survival rates, etc. forcing you to take risky guesses and prioritize certain actions. Nothing is free (unless you get a hammer). You can load and save your progress, or play a new game as much as you want. Once you are out of moves, you will be given your survival rate and its related metrics.
+Let's Titanic! is a simulation game where your main goal is to save as many Titanic passengers as possible as the captain of the ship. The game limits your actions on the ship to 100 moves, including moving passengers around the ship and inspecting their survival rates, forcing you to take risks and prioritize certain actions. Nothing is free (unless you get a hammer). You can load and save your progress, or start a new game as many times as you like. Once you are out of moves, you will be given your survival rate and related metrics.
 
 __Item Descriptions:__
 * Hammer (permanent unless used on a passenger): when entering a miscellaneous room, the player does not lose a move
@@ -20,9 +20,9 @@ __Item Descriptions:__
 #### Visit our live site at [167.172.24.134](http://167.172.24.134)  
 
 ### FEATURE SPOTLIGHT
-* Use the $1000000 Check on a passenger.
+* Use the $1000000 check on a passenger.
 * Gamble with the compass platform for a chance of instant win or instant death!
-* Take a look at db.py for all the sqlite functions.
+* Take a look at db.py for all the SQLite functions.
 
 ### KNOWN BUGS/ISSUES
 * Using the hammer on a passenger makes it disappear.
@@ -30,19 +30,19 @@ __Item Descriptions:__
 * When skipping (clicking) through the lore page, the text gets scrambled.
 
 ## Install Guide
-1) Clone the repo into a local directory:
+1) Clone the repository into a local directory:
 ```
 git clone git@github.com:emily708/gusty-chickens.git
 ```
-2) Enter the app directory:
+2) Enter the cloned repository directory:
 ```
 cd gusty-chickens
 ```
-3) Open a virtual environment:
+3) Create a virtual environment:
 ```
 python3 -m venv venv
 ```
-4) Activate virtual env for Linux, Windows, or Mac:
+4) Activate the virtual environment for Linux, Windows, or Mac:
 
   a. Linux
   ```
@@ -60,7 +60,7 @@ python3 -m venv venv
 ```
 pip install -r requirements.txt
 ```
-6) Change into the app directory
+6) Change into the app directory:
 ```
 cd app
 ```
