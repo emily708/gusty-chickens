@@ -15,10 +15,17 @@ __Item Descriptions:__
 * Youth Potion (disposable): Decreases someone’s age by 10 years
 * $1000000 Check (disposable): Changes someone to 1st Class
 * $1000 Check (disposable): Changes someone to 2nd Class
-* Debt Papers (disposable): Changes someone to 3rd Class
+* Debt Papers (disposable): Changes someone to 3rd Class  
 
+#### Visit our live site at [167.172.24.134](http://167.172.24.134)  
 
-#### Visit our live site at [167.172.24.134](http://167.172.24.134)
+### FEATURE SPOTLIGHT
+* Use the $1000000 Check on a passenger.
+* Gamble with the compass platform for a chance of instant win or instant death!
+* Take a look at db.py for all the sqlite functions.
+
+### KNOWN BUGS/ISSUES
+* Using the hammer on a passenger makes it disappear.
 
 ## Install Guide
 1) Clone the repo into a local directory:
