@@ -372,23 +372,23 @@ def rooms_get(place):
 
         num = random.random()
         if num < 0.70:
-            flash("You found canned air. How? Why?")
+            flash("You found canned air. How? Why?", "info")
             return redirect(url_for("game.map_get"))
         elif num < 0.90:
-            flash("You find some snake wine and dried cane toads. Curious, you ate them all. Nothing happened.")
+            flash("You find some snake wine and dried cane toads. Curious, you ate them all. Nothing happened.", "info")
             return redirect(url_for("game.map_get"))
         elif num < 0.95:
             general_query("UPDATE Items SET amount=amount+2 WHERE name=? AND game=?", ("Youth Potion", session["game"]))
-            flash("You find two youth potions in some unsavory magazines!")
+            flash("You find two youth potions in some unsavory magazines!", "info")
             return redirect(url_for("game.map_get"))
         else:
             general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
-            flash("You shuffle around, and your foot hits something. A growth potion!")
+            flash("You shuffle around, and your foot hits something. A growth potion!", "info")
             return redirect(url_for("game.map_get"))
 
     elif place == "cargo":
         use_move()
-        flash("You look through the shelves and find ABSOLUTELY NOTHING :)")
+        flash("You look through the shelves and find ABSOLUTELY NOTHING :)", "info")
 
     return redirect(url_for("game.map_get"))
 
