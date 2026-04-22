@@ -92,6 +92,24 @@ def start_get():
         "game": session["game"],
         "amount": 0,
     },)
+    insert_query("Items",
+    {
+        "name": "Second Class Ticket",
+        "game": session["game"],
+        "amount": 0,
+    },)
+    insert_query("Items",
+    {
+        "name": "Third Class Ticket",
+        "game": session["game"],
+        "amount": 0,
+    },)
+    insert_query("Items",
+    {
+        "name": "Fourth Class Ticket",
+        "game": session["game"],
+        "amount": 0,
+    },)
 
     room_use = {}
     for room in constants.rooms["tiers"]:
@@ -134,14 +152,11 @@ def start_get():
 def map_get():
     game = select_query("SELECT * FROM Games WHERE id=?" , [session["game"]])[0]
     caps = get_capacity()
+    limits = {}
 
-    kitchen = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("kitchen", session["game"]))[0]
-    refrigerated_cargo = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", ("refrigerated_cargo", session["game"]))[0]
+    for room in ["kitchen", "refrigerated_cargo", "gymnasium", "swimming_pool", "squash_court"]:
+        limits[room] = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (room, session["game"]))[0]["usedCapacity"]
 
-    limits = {
-        "kitchen": kitchen["usedCapacity"],
-        "refrigerated_cargo": refrigerated_cargo["usedCapacity"]
-    }
     return render_template("map.html", caps=caps, game=game, limits=limits)
 
 @bp.get('/end')
@@ -263,9 +278,9 @@ def rooms_get(place):
             flash("A death knell rings. You magically recieve a Youth potion.", "info")
             return redirect(url_for("game.map_get"))
         elif num < 0.97: #5%
-            flash("You gained some charisma! Perhaps that made you more charming...", "info")
             general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("First Class Ticket", session["game"]))
             flash("You won a first class ticket! Now you can send someone to tier A for free.", "info")
+            return redirect(url_for("game.map_get"))
         elif num < 0.99: #2%
             general_query("UPDATE Games SET active=FALSE WHERE id=?", (session["game"],))
             flash("You rolled instant death? You sick, sick gambler.", "info")
@@ -312,14 +327,70 @@ def rooms_get(place):
     elif place in ["gymnasium", "swimming_pool", "squash_court"]:
         this_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (place, session["game"]))[0]
         if (constants.rooms["miscellaneous"][place]["limit"] != 0) and (this_room["usedCapacity"] >= constants.rooms["miscellaneous"][place]["limit"]):
-            flash("You over-excercised!", "info")
+            flash("You over-exercised!", "info")
             return redirect(request.referrer)
 
         use_move()
+
         general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE room=? AND game=?", (place, session["game"]))
+        num = random.random()
+        if num < 0.50:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
+            flash("Make your enemies older hehehe... you got a growth potion!", "info");
+            return redirect(url_for("game.map_get"))
+        else:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Youth Potion", session["game"]))
+            flash("A mysterious elder in a cloak hands you a youth potion.", "info");
+            return redirect(url_for("game.map_get"))
+
+    elif place == "library":
+        use_move()
+
+        num = random.random()
+        if num < 0.60: #60%
+            flash("Too bad, too sad, nothing happened.", "info");
+            return redirect(url_for("game.map_get"))
+        elif num < 0.85: #25%
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Fourth Class Ticket", session["game"]))
+            flash("You found an N item at first glance: Fourth Class Ticket!", "info")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.95: #10%
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Third Class Ticket", session["game"]))
+            flash("You found an R item while flipping through the books: Third Class Ticket!", "info")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.995: #4.5%
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Second Class Ticket", session["game"]))
+            flash("You read dozens of books, and find an SR item: Second Class Ticket!", "info")
+            return redirect(url_for("game.map_get"))
+        else: #0.5%
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("First Class Ticket", session["game"]))
+            flash("Wowie, you absolute reading fanatic! You found an SSR item: First Class Ticket!", "info")
+            return redirect(url_for("game.end_get"))
+
+    elif place == "crew_room" or place == "post_office":
+        use_move()
+
+        num = random.random()
+        if num < 0.70:
+            flash("You found canned air. How? Why?")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.90:
+            flash("You find some snake wine and dried cane toads. Curious, you ate them all. Nothing happened.")
+            return redirect(url_for("game.map_get"))
+        elif num < 0.95:
+            general_query("UPDATE Items SET amount=amount+2 WHERE name=? AND game=?", ("Youth Potion", session["game"]))
+            flash("You find two youth potions in some unsavory magazines!")
+            return redirect(url_for("game.map_get"))
+        else:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", ("Growth Potion", session["game"]))
+            flash("You shuffle around, and your foot hits something. A growth potion!")
+            return redirect(url_for("game.map_get"))
+
+    elif place == "cargo":
+        use_move()
+        flash("You look through the shelves and find ABSOLUTELY NOTHING :)")
 
     return redirect(url_for("game.map_get"))
-    #return redirect(request.referrer)
 
 
 @bp.post('/use-item')
@@ -333,12 +404,59 @@ def use_get():
     if item_name == "Growth Potion":
         general_query("UPDATE Passengers SET age=age+10 WHERE id=? AND game=?", (passenger, session["game"]))
         flash("You used a growth potion to make this person 10 years older!", "info")
+
     elif item_name == "Youth Potion":
         if pass_dict["age"] <= 13:
             flash("You wasted your youth potion on a child! Shameful.", "info")
         else:
             general_query("UPDATE Passengers SET age=age-10 WHERE id=? AND game=?", (passenger, session["game"]))
             flash("You made this passenger 10 years younger! WOW", "info")
+
+    elif item_name == "First Class Ticket":
+        tier = 'A'
+        tier_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (tier, session["game"]))[0]
+
+        if tier_room["usedCapacity"] >= constants.rooms["tiers"][tier]["capacity"]:
+            general_query("UPDATE Items SET amount=amount+1 WHERE name=? AND game=?", (item_name, session["game"]))
+            flash("Dearest VVIP customer, Tier A is full. Here is your ticket refund.", "error")
+        else:
+            general_query("UPDATE Passengers SET room=? WHERE game=? AND id=?", (tier, session["game"], passenger))
+            general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE game=? AND room=?", (session["game"], tier))
+            flash("Ticket used! Passenger has moved to Tier A.", "info")
+
+    elif item_name == "Second Class Ticket":
+        tier = 'B'
+        tier_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (tier, session["game"]))[0]
+
+        if tier_room["usedCapacity"] >= constants.rooms["tiers"][tier]["capacity"]:
+            general_query("UPDATE Items SET amount=amount-1 WHERE name=? AND game=?", (item_name, session["game"]))
+            flash("Dear VIP customer, we are sorry, Tier B is full. Here is your ticket refund.", "error")
+        else:
+            general_query("UPDATE Passengers SET room=? WHERE game=? AND id=?", (tier, session["game"], passenger))
+            general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE game=? AND room=?", (session["game"], tier))
+            flash("Ticket used! Passenger has moved to Tier B.", "info")
+
+    elif item_name == "Third Class Ticket":
+        tier = 'C'
+        tier_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (tier, session["game"]))[0]
+
+        if tier_room["usedCapacity"] >= constants.rooms["tiers"][tier]["capacity"]:
+            flash("Unfortunately, Tier C is full, and the ticket is not refunded.", "error")
+        else:
+            general_query("UPDATE Passengers SET room=? WHERE game=? AND id=?", (tier, session["game"], passenger))
+            general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE game=? AND room=?", (session["game"], tier))
+            flash("Ticket used! Passenger has moved to Tier C.", "info")
+
+    elif item_name == "Fourth Class Ticket":
+        tier = 'D'
+        tier_room = select_query("SELECT * FROM Rooms WHERE room=? AND game=?", (tier, session["game"]))[0]
+
+        if tier_room["usedCapacity"] >= constants.rooms["tiers"][tier]["capacity"]:
+            flash("Ticket failed and not refunded. Tier D is full!", "error")
+        else:
+            general_query("UPDATE Passengers SET room=? WHERE game=? AND id=?", (tier, session["game"], passenger))
+            general_query("UPDATE Rooms SET usedCapacity = usedCapacity + 1 WHERE game=? AND room=?", (session["game"], tier))
+            flash("Ticket used! Passenger has moved to Tier D.", "info")
 
     return redirect(request.referrer)
 
